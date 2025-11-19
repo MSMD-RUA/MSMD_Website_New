@@ -1,0 +1,62 @@
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Moko See Moko Do — Protocols for Doing (Ngā Wai o Rua)</title>
+  <meta name="description" content="Moko See Moko Do (MSMD): simple, repeatable protocols to turn kōrero into action — carving, code, kaupapa. Ngā Wai o Rua is the knowledge stream that powers it." />
+  <link rel="canonical" href="https://mokoseemokodo.com/" />
+  <meta name="robots" content="index,follow" />
+
+  <!-- Build tag (so we always know what's live) -->
+  <meta name="x-build" content="msmd-site v6 — 2025-09-01 12:20 NZT">
+  <!-- BUILD: msmd-site v6 — 2025-09-01 12:20 NZT -->
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Moko See Moko Do — Protocols for Doing" />
+  <meta property="og:description" content="Turn kōrero into action. Protocols anyone can apply." />
+  <meta property="og:url" content="https://mokoseemokodo.com/" />
+  <meta property="og:image" content="https://mokoseemokodo.com/images/og.jpg" /> <!-- 1200x630 -->
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Moko See Moko Do — Protocols for Doing" />
+  <meta name="twitter:description" content="Turn kōrero into action. Protocols anyone can apply." />
+  <meta name="twitter:image" content="https://mokoseemokodo.com/images/og.jpg" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+  <!-- Organization + Website schema -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Moko See Moko Do",
+    "url":"https://mokoseemokodo.com/",
+    "logo":"https://mokoseemokodo.com/images/og.jpg",
+    "sameAs":[
+      "https://www.facebook.com/yourpage",
+      "https://www.instagram.com/yourhandle"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "url":"https://mokoseemokodo.com/",
+    "name":"Moko See Moko Do",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://mokoseemokodo.com/?q={search_term_string}",
+      "query-input":"required name=search_term_string"
+    }
+  }
+  </script>
+</head>
+/*
+  X-Build: msmd-v6-2025-09-01-1300-NZT
+

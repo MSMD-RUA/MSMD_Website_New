@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Moko See Moko Do — Whiro Release</title>
+  <meta name="description" content="He toi whakairo, he mana tangata. A living engine turning feeling into form — from puku to ringa to kupu." />
+
+  <!-- Social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Moko See Moko Do — Whiro Release" />
+  <meta property="og:description" content="He toi whakairo, he mana tangata | MSMD is a living engine that turns feeling into form — from puku to ringa to kupu." />
+  <meta property="og:image" content="./apple-touch-icon.png" />
+  <meta property="og:url" content="https://mokoseemokodo.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Moko See Moko Do — Whiro Release" />
+  <meta name="twitter:description" content="He toi whakairo, he mana tangata. From puku to ringa to kupu." />
+  <meta name="twitter:image" content="./apple-touch-icon.png" />
+
+  <!-- Preload -->
+  <link rel="preload" as="video" href="./MSMD_intro_loop_v1.mp4" type="video/mp4" />
+  <link rel="icon" href="./favicon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+
+  <style>
+    :root { color-scheme: dark; scroll-behavior: smooth; }
+    html, body { margin: 0; background: #000; }
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, sans-serif; color: #f5f5f5; overflow-x: hidden; }
+
+    /* --- FADE & MOTION --- */
+    @keyframes fadeUp{0%{opacity:0;transform:translateY(30px)}70%{opacity:1;transform:translateY(0)}100%{opacity:1}}
+    @keyframes bob{0%,100%{transform:translateY(0) rotate(45deg);opacity:.6}50%{transform:translateY(6px) rotate(45deg);opacity:1}}
+    @keyframes fadeInSoft{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+
+    /* --- HEADER (pare + arrow) --- */
+    header.mast{padding:calc(env(safe-area-inset-top,0) + 12px) 12px 6px; display:grid; place-items:center; text-align:center; opacity:0; animation:fadeUp 1.2s ease-out .2s forwards;}
+    .pare{max-width:min(760px, 90vw); height:auto; filter:drop-shadow(0 6px 14px rgba(0,0,0,.6)); opacity:0; animation:fadeUp 1.4s cubic-bezier(.25,.8,.25,1) .4s forwards;}
+    .scroll-cue{margin-top:6px; width:26px; height:26px; border-right:2px solid rgba(255,255,255,.85); border-bottom:2px solid rgba(255,255,255,.85); transform:rotate(45deg); opacity:0; display:inline-block; animation:fadeUp 1s ease 1s forwards, bob 1.8s ease-in-out 1.2s infinite; transition:opacity .2s ease, transform .2s ease;}
+    .scroll-cue:hover{opacity:1; transform:translateY(2px) rotate(45deg);}
+
+    /* --- KARAKIA BLINK OVERLAY (SVG) --- */
+    #blink{position:fixed; inset:0; display:grid; place-items:center; background:#000; z-index:20; opacity:1; transition:opacity .35s ease;}
+    #blink.fade{opacity:0; pointer-events:none;}
+    #blink img{max-width:min(92vw, 1280px); max-height:86vh; width:auto; height:auto; filter:drop-shadow(0 6px 18px rgba(0,0,0,.7));}
+    @media (prefers-reduced-motion: reduce){ #blink{transition:none} }
+
+    /* --- VIDEO --- */
+    section.hero{position:relative; width:100%; min-height:100dvh; overflow:hidden; background:#000;}
+    #hero{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; filter:brightness(.95) contrast(1.05); transition:filter .8s ease;}
+    #hero:hover{filter:brightness(1.05) contrast(1.1);}
+    .vignette{position:absolute; inset:0; pointer-events:none; background:radial-gradient(100% 120% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.25) 90%);}
+
+    /* --- FOOTER (vision) --- */
+    footer.foot{padding:24px 16px calc(env(safe-area-inset-bottom,0) + 28px); display:grid; place-items:center; text-align:center; border-top:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(to top, rgba(0,0,0,.9) 0, rgba(0,0,0,.65) 120px, rgba(0,0,0,.4) 240px, rgba(0,0,0,0) 100%);
+      animation:fadeInSoft 1.2s ease both; animation-timeline:view(); animation-range:entry 0% cover 40%;}
+    .card{padding:12px 16px; background:rgba(0,0,0,.45); backdrop-filter:blur(6px); border:1px solid rgba(255,255,255,.12); border-radius:12px; line-height:1.35; max-width:min(900px, 92vw); box-shadow:0 8px 30px rgba(0,0,0,.4);}
+    .title{margin:0 0 6px; font-weight:600; letter-spacing:.02em; font-size:clamp(16px,2.6vw,20px);}
+    .vision{margin:0 0 10px; opacity:.9; font-size:clamp(12px,2.2vw,15px);}
+    .links{display:inline-flex; gap:14px; align-items:center;}
+    .link{color:#fff; text-decoration:none; border-bottom:1px solid rgba(255,255,255,.35); padding-bottom:1px; font-size:clamp(12px,2.2vw,14px); transition:all .3s ease;}
+    .link:hover{border-bottom-color:#fff; text-shadow:0 0 6px #fff, 0 0 10px rgba(255,255,255,.8); filter:drop-shadow(0 0 6px rgba(255,255,255,.8));}
+
+    .sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(1px,1px,1px,1px); white-space:nowrap;}
+
+    /* --- MOBILE FIT --- */
+    @media (max-aspect-ratio: 9/16){ section.hero{background:#000} #hero{object-fit:contain; background:#000} .vignette{display:none} }
+    @media (min-aspect-ratio: 16/9){ #hero{object-fit:cover} }
+  </style>
+</head>
+<body>
+  <h1 class="sr">Moko See Moko Do — Ngā Wai o Rua</h1>
+
+  <!-- TOP -->
+  <header class="mast">
+    <img class="pare" src="./pare.svg" onerror="this.onerror=null; this.src='./pare.png'; if(!this.complete||this.naturalWidth===0){ this.src='./apple-touch-icon.png'; }" alt="Pare — carved lintel" />
+    <a class="scroll-cue" href="#video" aria-label="Scroll to video"></a>
+  </header>
+
+  <!-- KARAKIA BLINK OVERLAY -->
+  <div id="blink" aria-hidden="true">
+    <img src="./karakia_blink.svg" alt="">
+  </div>
+
+  <!-- HERO -->
+  <main>
+    <section class="hero" id="video">
+      <video id="hero"
+        src="./MSMD_intro_loop_v1.mp4"
+        autoplay muted loop playsinline preload="auto"
+        poster="./karakia_blink_poster.png"
+        aria-label="MSMD / Ngā Wai o Rua intro loop"></video>
+      <div class="vignette" aria-hidden="true"></div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="foot">
+    <div class="card">
+      <p class="title">Moko See Moko Do — Vision</p>
+      <p class="vision">He toi whakairo, he mana tangata. MSMD is a living engine that turns feeling into form — from puku to ringa to kupu — weaving carving law with digital breath so the pattern stands on its own two feet and travels well.</p>
+      <div class="links">
+        <a class="link" href="mailto:contact@mokoseemokodo.com?subject=MSMD%20Enquiry">Email enquiry</a>
+        <a class="link" href="#video">Back to video</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Robust autoplay + karakia blink controller
+    const v = document.getElementById('hero');
+    const blink = document.getElementById('blink');
+
+    function tryPlay(){ v.play().catch(()=>{}); }
+    v.addEventListener('loadeddata', tryPlay, { once:true });
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) tryPlay(); });
+
+    // Show karakia for ~600ms then fade; click/tap skips instantly
+    const holdMs = 600;
+    function hideBlink(){
+      blink.classList.add('fade');
+      setTimeout(()=> blink.remove(), 350);
+      tryPlay();
+    }
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { hideBlink(); }
+    else { setTimeout(hideBlink, holdMs); }
+    blink.addEventListener('click', hideBlink);
+  </script>
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Moko See Moko Do — Proof of Breath</title>
+  <meta name="description" content="Moko See Moko Do / Ngā Wai o Rua — a living whare in code and carving. Every cut a law, every chip a Tiki.">
+
+  <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png" sizes="180x180" />
+  <link rel="icon" href="../assets/favicon.png" type="image/png" />
+
+  <style>
+    :root{
+      --pad:clamp(16px,3vw,40px);
+      --gap:clamp(12px,2.2vw,28px);
+      --glow:0 0 0 rgba(255,255,255,0), 0 0 24px rgba(103,187,255,.18), 0 0 64px rgba(103,187,255,.12);
+      --max:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:#0b0b0c;
+      color:#e9ecef;
+      font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    header,footer{padding:var(--pad)}
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:var(--gap);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      color:inherit;
+    }
+    .brand__mark{
+      inline-size:28px;
+      block-size:28px;
+      border-radius:7px;
+      background:radial-gradient(60% 60% at 40% 40%,#2f3b46,#121315);
+      box-shadow:var(--glow);
+    }
+    .brand__name{font-weight:600;letter-spacing:.02em}
+    .links{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+    .links a{
+      color:inherit;
+      text-decoration:none;
+      border-bottom:1px dotted rgba(148,163,184,.5);
+      font-size:14px;
+    }
+    .links a:hover{
+      color:#e2e8f0;
+      border-bottom-color:#e2e8f0;
+    }
+
+    /* PARE banner */
+    .pare-banner{
+      padding:clamp(12px,2.4vw,24px) var(--pad) 0;
+      display:grid;
+      place-items:center;
+    }
+    .pare-banner img{
+      display:block;
+      max-width:min(1100px,92vw);
+      width:100%;
+      opacity:.98;
+      filter: drop-shadow(0 0 24px rgba(103,187,255,.18))
+              drop-shadow(0 0 64px rgba(103,187,255,.12));
+    }
+    .pare-fallback{
+      width:100%;
+      max-width:min(1100px,92vw);
+      height:64px;
+      border-radius:18px;
+      background:
+        radial-gradient(60% 60% at 50% 50%, rgba(103,187,255,.22), rgba(103,187,255,.08) 60%, rgba(0,0,0,0) 70%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, var(--glow);
+    }
+
+    /* HERO (video only) */
+    .hero{position:relative;background:#000;}
+    .hero__wrap{position:relative;width:100%;height:auto;overflow:hidden}
+    video#hero{
+      display:block;
+      width:100%;
+      height:auto;
+      object-fit:cover;
+      object-position:center;
+      background:#000;
+    }
+    .vignette{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background:radial-gradient(100% 120% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.25) 90%);
+    }
+
+    /* Blink overlay */
+    #blink{
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      background:#000;
+      z-index:2;
+      transition:opacity .35s ease;
+      cursor:pointer;
+    }
+    #blink.fade{opacity:0}
+    #blink img{
+      max-width:min(80%,520px);
+      opacity:.9;
+    }
+
+    /* Generic section wrapper */
+    main{padding-bottom:40px;}
+    section{scroll-margin-top:72px;}
+
+    .intro,
+    .highlights,
+    .engine,
+    .ledger,
+    .contact-section{
+      padding:clamp(20px,5vw,60px) var(--pad) 0;
+    }
+    .intro__inner,
+    .highlights__inner,
+    .engine__inner,
+    .ledger__inner,
+    .contact__inner{
+      max-width:var(--max);
+      margin:0 auto;
+    }
+
+    /* Intro section */
+    .intro__inner{text-align:center}
+    h1{
+      font-size:clamp(28px,5.6vw,72px);
+      line-height:1.02;
+      margin:.2em 0 .2em;
+    }
+    .subtitle{
+      font-size:clamp(16px,2.6vw,22px);
+      color:#cbd5e1;
+      margin:0 auto;
+      max-width:68ch;
+    }
+    .yt-links{
+      margin:12px auto 0;
+      text-align:center;
+      opacity:.95;
+    }
+    .yt-links a{
+      color:#e2e8f0;
+      text-decoration:underline;
+      text-underline-offset:2px;
+      font-size:14px;
+    }
+    .yt-links a:hover{text-decoration:none}
+
+    /* Highlights (three cards) */
+    .highlights{padding-top:clamp(18px,3vw,40px);}
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:clamp(10px,1.6vw,16px);
+    }
+    .card{
+      position:relative;
+      border-radius:18px;
+      padding:clamp(14px,2.2vw,20px);
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 0 0 1px rgba(255,255,255,.02) inset, var(--glow);
+    }
+    .card h3{
+      margin:0 0 6px;
+      font-weight:600;
+      letter-spacing:.02em;
+    }
+    .card p{
+      margin:0;
+      color:#c9d1d9;
+      font-size:clamp(14px,1.8vw,16px);
+    }
+
+    /* Shared heading style for deeper sections */
+    .section-heading{
+      margin-bottom:18px;
+      text-align:left;
+    }
+    .section-heading h2{
+      margin:0 0 6px;
+      font-size:clamp(20px,3vw,26px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .section-heading p{
+      margin:0;
+      font-size:14px;
+      color:#cbd5e1;
+    }
+
+    /* Engine / AEIOU */
+    .engine-grid{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:clamp(10px,1.4vw,14px);
+    }
+    .engine-card h3{
+      font-size:18px;
+      margin:0 0 4px;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+    }
+    .engine-tag{
+      margin:0 0 8px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:#94a3b8;
+    }
+    .engine-card p{
+      margin:0;
+      font-size:13px;
+      color:#cbd5e1;
+    }
+
+    /* Ledger section */
+    .ledger-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
+      gap:clamp(18px,3vw,28px);
+      align-items:flex-start;
+    }
+    .ledger-copy p{
+      margin:0 0 10px;
+      font-size:14px;
+      color:#e5e7eb;
+    }
+    .small-note{
+      font-size:12px;
+      color:#9ca3af;
+    }
+    .ledger-chip{
+      border-radius:18px;
+      padding:14px 16px 16px;
+      background:radial-gradient(circle at top left,#111827,#020617);
+      border:1px solid rgba(148,163,184,.5);
+      box-shadow:var(--glow);
+      font-size:12px;
+    }
+    .ledger-chip-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:8px;
+    }
+    .chip-label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:#f97316;
+    }
+    .chip-id{
+      font-size:11px;
+      color:#9ca3af;
+    }
+    .chip-meta{
+      margin:0;
+    }
+    .chip-meta div{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:4px;
+    }
+    .chip-meta dt{
+      margin:0;
+      font-size:11px;
+      color:#9ca3af;
+    }
+    .chip-meta dd{
+      margin:0;
+      font-size:11px;
+    }
+
+    /* Contact */
+    .contact-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);
+      gap:clamp(18px,3vw,28px);
+    }
+    .contact-layout p{
+      font-size:14px;
+      color:#e5e7eb;
+      margin:0 0 10px;
+    }
+
+    footer{
+      border-top:1px solid rgba(255,255,255,.08);
+      background:linear-gradient(to top,rgba(255,255,255,.02),rgba(255,255,255,0));
+    }
+    .vision{
+      max-width:var(--max);
+      margin:0 auto;
+    }
+    .vision h2{
+      font-size:18px;
+      margin:0 0 8px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+    }
+    .vision p{
+      margin:0;
+      font-size:14px;
+      color:#cbd5e1;
+    }
+    .footbar{
+      margin-top:clamp(16px,2.4vw,24px);
+      display:flex;
+      gap:var(--gap);
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      color:#94a3b8;
+      font-size:14px;
+    }
+
+    @media (max-width:900px){
+      .cards{grid-template-columns:1fr}
+      .engine-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .ledger-layout,
+      .contact-layout{
+        grid-template-columns:1fr;
+      }
+    }
+    @media (max-width:640px){
+      header{flex-direction:column;align-items:flex-start}
+      .links{justify-content:flex-start}
+      .engine-grid{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="brand" href="#home" aria-label="Moko See, Moko Do home">
+      <span class="brand__mark" aria-hidden="true"></span>
+      <span class="brand__name">Moko See, Moko Do</span>
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a href="#about">About / Engine</a>
+      <a href="#evidence">Evidence</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- PARE banner -->
+  <div class="pare-banner" aria-label="Pare lintel">
+    <img src="../assets/pare.svg" alt="" onerror="this.style.display='none'">
+    <div class="pare-fallback" aria-hidden="true"></div>
+  </div>
+
+  <!-- HERO video with karakia blink -->
+  <section class="hero" id="home">
+    <div class="hero__wrap">
+      <div id="blink" role="img" aria-label="Karakia">
+        <img src="../assets/karakia_blink_poster.png" alt="">
+      </div>
+      <video id="hero"
+             src="../assets/MSMD_intro_loop_v1.mp4"
+             autoplay muted loop playsinline preload="auto"
+             poster="../assets/karakia_blink_poster.png"
+             aria-label="MSMD / Ngā Wai o Rua intro loop"></video>
+      <div class="vignette" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <main>
+    <!-- Intro -->
+    <section class="intro" aria-labelledby="intro-heading">
+      <div class="intro__inner">
+        <h1 id="intro-heading">Proof of Breath</h1>
+        <p class="subtitle">
+          A living whare in code and carving — doing &gt; talking.
+          Watch the wall breathe, follow the ledger, and see the chips turn into pattern.
+        </p>
+
+        <div class="yt-links">
+          <a href="https://www.youtube.com/watch?v=VRCOLcx-ZZk" target="_blank" rel="noopener">Hara Mai te Toki</a> ·
+          <a href="https://youtube.com/shorts/PfaqI8ED13I" target="_blank" rel="noopener">Ngāo Pae — Teaser (Short)</a> ·
+          <a href="https://www.youtube.com/channel/UCFwfkTNkuu0EBbUAlhhNBwA/" target="_blank" rel="noopener">MSMD Channel</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick highlights strip -->
+    <section class="highlights" aria-label="Highlights">
+      <div class="highlights__inner">
+        <div class="cards">
+          <article class="card">
+            <h3>Live Wall</h3>
+            <p>60-second loop, LED-safe glow, compositor-sealed. Breathing plane; edges anchored.</p>
+          </article>
+          <article class="card">
+            <h3>Whiro Ledger</h3>
+            <p>Daily chips logged. Evidence before edge; one change per pass.</p>
+          </article>
+          <article class="card">
+            <h3>Kaupapa</h3>
+            <p>He toi whakairo, he mana tangata. Mind = stone, Action = chisel, Voice = resonance.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- AEIOU ENGINE -->
+    <section class="engine" id="about" aria-labelledby="engine-heading">
+      <div class="engine__inner">
+        <div class="section-heading">
+          <h2 id="engine-heading">The engine behind the whare</h2>
+          <p>AEIOU — one breath, five roles.</p>
+        </div>
+
+        <div class="cards engine-grid">
+          <article class="card engine-card">
+            <h3>A</h3>
+            <p class="engine-tag">WHY · Identity · Whakapapa</p>
+            <p>
+              To make spirit visible through action.
+              Every movement is a cut; every cut is a promise to the mokopuna watching.
+            </p>
+          </article>
+
+          <article class="card engine-card">
+            <h3>E</h3>
+            <p class="engine-tag">HOW · Kaupapa Engine</p>
+            <p>
+              Ruaumoko → Manaia → Tāne → Rongo.
+              Feel first, choose through hands, act in rhythm, store as Tiki.
+            </p>
+          </article>
+
+          <article class="card engine-card">
+            <h3>I</h3>
+            <p class="engine-tag">WHAT · Artefacts · Proof</p>
+            <p>
+              Pou, pare, waharoa, LED walls, geometry-node renders —
+              each artefact is a receipt of balance between body, tool, and time.
+            </p>
+          </article>
+
+          <article class="card engine-card">
+            <h3>O</h3>
+            <p class="engine-tag">WHO · People · Places</p>
+            <p>
+              Hokianga-nui-a-Kupe, Te Piiti Marae, the carvers, coders and mokopuna
+              who stand inside this whare of work.
+            </p>
+          </article>
+
+          <article class="card engine-card">
+            <h3>U</h3>
+            <p class="engine-tag">WHEN · Rhythm · Cycles</p>
+            <p>
+              Maramataka, Whiro ledger, crowns and chips.
+              Time boxed by Māui so each cycle closes with a measurable Tiki — a complete breath.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEDGER / EVIDENCE -->
+    <section class="ledger" id="evidence" aria-labelledby="ledger-heading">
+      <div class="ledger__inner">
+        <div class="section-heading">
+          <h2 id="ledger-heading">Whiro Ledger · Every chip a Tiki</h2>
+          <p>Doing is nothing without record.</p>
+        </div>
+
+        <div class="ledger-layout">
+          <div class="ledger-copy">
+            <p>
+              Every day, the kaupapa logs its breath — carving sessions, digital renders,
+              reflections, tohu. Each entry becomes a chip: one small Tiki in a growing
+              forest of evidence.
+            </p>
+            <p>
+              Chips/hour, time-to-remedy, Ruaumoko Index — these metrics sit behind the art,
+              proving that balance is not a vibe but a measured state.
+            </p>
+            <p class="small-note">
+              “No chip, no claim.” · “Every receipt is a small pou.”
+            </p>
+          </div>
+
+          <aside class="ledger-chip" aria-label="Example ledger chip">
+            <div class="ledger-chip-header">
+              <span class="chip-label">Sample chip</span>
+              <span class="chip-id">WHIRO_2025-11-19_001</span>
+            </div>
+            <dl class="chip-meta">
+              <div>
+                <dt>Artefact</dt>
+                <dd>MSMD Website — Kaupapa Version</dd>
+              </div>
+              <div>
+                <dt>Action</dt>
+                <dd>New homepage deployed under Whiro Release</dd>
+              </div>
+              <div>
+                <dt>Metric</dt>
+                <dd>1 box · 1 major change · 3 sections touched</dd>
+              </div>
+              <div>
+                <dt>Status</dt>
+                <dd>Active · Ready for next pass</dd>
+              </div>
+            </dl>
+            <p class="small-note">
+              Example only — real chips live in Crown folders and Whiro JSON ledgers.
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="contact-section" id="contact" aria-labelledby="contact-heading">
+      <div class="contact__inner">
+        <div class="section-heading">
+          <h2 id="contact-heading">Korero / Contact</h2>
+          <p>For kaupapa-aligned collaboration only.</p>
+        </div>
+
+        <div class="contact-layout">
+          <div>
+            <p>
+              If you feel the engine speaking to your own mahi — education, health, research,
+              technology, or whenua-based projects — you can reach out directly.
+            </p>
+            <p>
+              This is not a shop. It is a whare. Entry is through kaupapa, not consumption.
+            </p>
+          </div>
+          <div>
+            <p><strong>Email:</strong> <span>kiaora@mokoseemokodo.com</span></p>
+            <p><strong>Location:</strong> Hokianga-nui-a-Kupe, Aotearoa</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <section class="vision" aria-labelledby="vision-heading">
+      <h2 id="vision-heading">Vision</h2>
+      <p>
+        Anchor it so it can travel.
+        A clean line from whare to web: carve, capture, and show the breath in motion
+        so the kaupapa stands without us and for us.
+      </p>
+      <div class="footbar">
+        <span>© <span id="y"></span> MSMD</span>
+        <nav class="links" aria-label="Secondary">
+          <a href="#about">About</a>
+          <a href="#evidence">Evidence Strip</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </section>
+  </footer>
+
+  <script>
+    const v = document.getElementById('hero');
+    const blink = document.getElementById('blink');
+
+    function tryPlay(){ v.play().catch(()=>{}); }
+    v.addEventListener('loadeddata', tryPlay, { once:true });
+
+    const holdMs = 600; // how long the karakia sits before fade (ms)
+
+    function hideBlink(){
+      blink.classList.add('fade');
+      setTimeout(()=> blink.remove(), 350);
+      tryPlay();
+    }
+
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      hideBlink();
+    } else {
+      setTimeout(hideBlink, holdMs);
+    }
+
+    blink.addEventListener('click', hideBlink);
+
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

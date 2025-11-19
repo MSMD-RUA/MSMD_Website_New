@@ -1,0 +1,468 @@
+/* -------------------------------------------------------
+   Moko See Moko Do — MSMD Kaupapa Styles (v1)
+   ------------------------------------------------------- */
+
+:root {
+  --bg: #050709;
+  --bg-alt: #0e1014;
+  --bg-soft: #151821;
+  --accent: #e36b2c;
+  --accent-soft: rgba(227, 107, 44, 0.15);
+  --text: #f3f4f6;
+  --muted: #9ca3af;
+  --border-soft: rgba(148, 163, 184, 0.3);
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+  --shadow-soft: 0 18px 60px rgba(0, 0, 0, 0.55);
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: radial-gradient(circle at top, #111827, #020307 48%, #000 100%);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* HEADER ------------------------------------------------ */
+
+.msmd-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(16px);
+  background: linear-gradient(to bottom, rgba(5, 7, 9, 0.96), rgba(5, 7, 9, 0.6));
+  border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+}
+
+.msmd-header-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0.6rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.msmd-logo-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.msmd-logo {
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.msmd-sublogo {
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.msmd-nav {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.85rem;
+}
+
+.msmd-nav a {
+  text-decoration: none;
+  color: var(--muted);
+  position: relative;
+  padding-bottom: 0.15rem;
+}
+
+.msmd-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -0.1rem;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.18s ease-out;
+}
+
+.msmd-nav a:hover {
+  color: var(--text);
+}
+
+.msmd-nav a:hover::after {
+  width: 100%;
+}
+
+.msmd-nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.4rem;
+}
+
+/* LAYOUT ------------------------------------------------ */
+
+main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 3.5rem;
+}
+
+.msmd-section {
+  margin-bottom: 3.5rem;
+}
+
+.msmd-section-heading {
+  margin-bottom: 1.8rem;
+}
+
+.msmd-section-heading h2 {
+  margin: 0;
+  font-size: 1.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.msmd-section-heading p {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* HERO -------------------------------------------------- */
+
+.msmd-hero {
+  margin-top: 0.75rem;
+}
+
+.msmd-hero-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 2.4rem;
+  align-items: center;
+}
+
+.msmd-tagline {
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin: 0 0 0.6rem;
+}
+
+.msmd-hero-text h1 {
+  margin: 0 0 0.8rem;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.msmd-lead {
+  margin: 0 0 1.2rem;
+  color: var(--muted);
+  font-size: 0.98rem;
+}
+
+.msmd-hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.msmd-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.55rem 1.25rem;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.16s ease, transform 0.12s ease,
+    border-color 0.16s ease, box-shadow 0.16s ease;
+}
+
+.msmd-btn-primary {
+  background: var(--accent);
+  color: #020617;
+  box-shadow: var(--shadow-soft);
+}
+
+.msmd-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+}
+
+.msmd-btn-ghost {
+  border-color: var(--border-soft);
+  color: var(--text);
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.msmd-btn-ghost:hover {
+  border-color: var(--accent);
+}
+
+.msmd-btn-secondary {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: transparent;
+}
+
+.msmd-btn-secondary:hover {
+  background: var(--accent-soft);
+}
+
+/* HERO VIDEO ------------------------------------------- */
+
+.msmd-hero-media {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.msmd-hero-video-frame {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: var(--shadow-soft);
+  background: radial-gradient(circle at top left, #1f2937, #020617 65%);
+  position: relative;
+}
+
+.msmd-hero-video-frame video {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  max-height: 260px;
+}
+
+.msmd-hero-video-label {
+  position: absolute;
+  bottom: 0.55rem;
+  left: 0.85rem;
+  padding: 0.18rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.6);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.msmd-hero-caption {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* GRID / CARDS ----------------------------------------- */
+
+.msmd-grid {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.msmd-grid-5 {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.msmd-grid-3 {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.msmd-card {
+  background: linear-gradient(145deg, #020617, #101827);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1rem 1.1rem;
+  border: 1px solid rgba(31, 41, 55, 0.9);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+}
+
+.msmd-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.msmd-card-tag {
+  margin: 0 0 0.6rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.msmd-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #d1d5db;
+}
+
+/* LEDGER ------------------------------------------------ */
+
+.msmd-ledger {
+  border-top: 1px solid rgba(31, 41, 55, 0.9);
+  padding-top: 3rem;
+}
+
+.msmd-ledger-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 1.8rem;
+  align-items: flex-start;
+}
+
+.msmd-ledger-copy p {
+  margin-top: 0;
+  margin-bottom: 0.9rem;
+  font-size: 0.94rem;
+  color: var(--dove, #e5e7eb);
+}
+
+.msmd-small {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.msmd-ledger-panel {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.msmd-ledger-chip {
+  width: 100%;
+  max-width: 360px;
+  border-radius: var(--radius-xl);
+  padding: 0.9rem 1rem 1.05rem;
+  background: radial-gradient(circle at top left, #111827, #020617);
+  border: 1px solid rgba(148, 163, 184, 0.5);
+  box-shadow: var(--shadow-soft);
+}
+
+.msmd-ledger-chip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+}
+
+.msmd-chip-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.msmd-chip-id {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.msmd-chip-meta {
+  margin: 0;
+}
+
+.msmd-chip-meta > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.25rem;
+}
+
+.msmd-chip-meta dt {
+  font-size: 0.74rem;
+  color: var(--muted);
+}
+
+.msmd-chip-meta dd {
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+.msmd-chip-footnote {
+  margin-top: 0.8rem;
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+/* CONTACT ---------------------------------------------- */
+
+.msmd-contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1.6rem;
+}
+
+.msmd-contact-details p {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+}
+
+/* FOOTER ----------------------------------------------- */
+
+.msmd-footer {
+  border-top: 1px solid rgba(31, 41, 55, 0.9);
+  padding: 1rem 1.25rem 1.4rem;
+  text-align: center;
+  font-size: 0.76rem;
+  color: var(--muted);
+  background: #020617;
+}
+
+/* RESPONSIVE ------------------------------------------- */
+
+@media (max-width: 800px) {
+  .msmd-hero-inner,
+  .msmd-ledger-layout,
+  .msmd-contact-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .msmd-hero-inner {
+    gap: 1.8rem;
+  }
+
+  .msmd-header-inner {
+    padding-inline: 1rem;
+  }
+
+  .msmd-nav-toggle {
+    display: block;
+  }
+
+  .msmd-nav {
+    position: absolute;
+    right: 0.75rem;
+    top: 2.6rem;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 0.75rem;
+    background: rgba(15, 23, 42, 0.98);
+    border: 1px solid rgba(31, 41, 55, 0.9);
+    display: none;
+  }
+
+  .msmd-nav.is-open {
+    display: flex;
+  }
+}
