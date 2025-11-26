@@ -344,6 +344,59 @@
       }
     }
 
+    /* Gate 1 → Gate 2 button */
+    .gate2-button{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin:0 0 12px;
+      padding:6px 14px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.6);
+      background:rgba(15,23,42,.8);
+      color:#e5e7eb;
+      font-size:13px;
+      cursor:pointer;
+    }
+    .gate2-button:hover{
+      border-color:#e5e7eb;
+      background:rgba(15,23,42,.95);
+    }
+
+    /* Gate 2 — Inside the Grain */
+    .gate2{
+      padding:clamp(20px,5vw,60px) var(--pad) 0;
+    }
+    .gate2__inner{
+      max-width:var(--max);
+      margin:0 auto;
+    }
+    .gate2__inner h2{
+      margin:0 0 8px;
+      font-size:clamp(20px,3vw,26px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .gate2__intro{
+      margin:0 0 18px;
+      font-size:14px;
+      color:#cbd5e1;
+      max-width:70ch;
+    }
+    .gate2-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:clamp(10px,1.6vw,16px);
+    }
+    .gate2-card h3{
+      font-size:16px;
+    }
+    @media (max-width:900px){
+      .gate2-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
     footer{
       border-top:1px solid rgba(255,255,255,.08);
       background:linear-gradient(to top,rgba(255,255,255,.02),rgba(255,255,255,0));
@@ -474,7 +527,12 @@
           light and code without losing its mana. Rotate, zoom, and sit with the grain.
         </p>
 
+        <button type="button" class="gate2-button" data-target="#gate2-section">
+          Enter Gate 2 — Inside the Grain
+        </button>
+
         <model-viewer
+          id="gate1-viewer"
           class="hei-rata-viewer"
           src="assets/hei_rata_gate1_v1.glb"
           alt="Hei Rata digital taonga"
@@ -482,11 +540,48 @@
           auto-rotate
           auto-rotate-delay="4000"
           interaction-prompt="auto"
-          shadow-intensity="1"
-          exposure="1"
+          shadow-intensity="0.9"
+          exposure="1.1"
           ar
           ar-modes="webxr scene-viewer quick-look">
         </model-viewer>
+      </div>
+    </section>
+
+    <!-- Gate 2 — Inside the Grain -->
+    <section id="gate2-section" aria-labelledby="gate2-heading" class="gate2">
+      <div class="gate2__inner">
+        <h2 id="gate2-heading">Gate 2 — Inside the Grain</h2>
+        <p class="gate2__intro">
+          Stepping through the hei rata brings you into the grain itself — the law behind the surface.
+          This gate holds the memory logic of the taonga: kape rua, chip and Tiki, strike and echo.
+        </p>
+
+        <div class="cards gate2-grid">
+          <article class="card gate2-card">
+            <h3>Kape Rua — The Footprint Law</h3>
+            <p>
+              Every hollow in the scan is kape rua — motion leaving memory.
+              The concave pockets in the hei rata are where the tool’s force became story.
+            </p>
+          </article>
+
+          <article class="card gate2-card">
+            <h3>Chip → Tiki</h3>
+            <p>
+              Each chisel strike became a chip; each chip became a Tiki once logged.
+              The digital scan is the macro-Tiki — a single record holding all those chips at once.
+            </p>
+          </article>
+
+          <article class="card gate2-card">
+            <h3>Light as Whakapapa</h3>
+            <p>
+              In this gate the light is the storyteller.
+              The breathing exposure marks time passing over the surface — Proof-of-Breath made visible.
+            </p>
+          </article>
+        </div>
       </div>
     </section>
 
@@ -672,6 +767,42 @@
     blink.addEventListener('click', hideBlink);
 
     document.getElementById('y').textContent = new Date().getFullYear();
+
+    // --- Gate 1 breathing light (Proof-of-Breath v1.2) ---
+    (function startGate1Breath() {
+      const viewer = document.getElementById('gate1-viewer');
+      if (!viewer) return;
+
+      const baseExposure  = 1.1;
+      const amplitude     = 0.35;
+      const periodSeconds = 10;
+
+      let startTime = null;
+
+      function frame(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const elapsed = (timestamp - startTime) / 1000; // seconds
+        const phase   = (elapsed / periodSeconds) * 2 * Math.PI;
+        const offset  = Math.sin(phase);
+        const exposure = baseExposure + amplitude * offset;
+        viewer.setAttribute('exposure', exposure.toFixed(3));
+        requestAnimationFrame(frame);
+      }
+
+      requestAnimationFrame(frame);
+    })();
+    // --- End Gate 1 breathing light ---
+
+    // --- Gate 2 navigation button (scroll to Inside the Grain) ---
+    document.querySelectorAll('.gate2-button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = btn.getAttribute('data-target');
+        const el = document.querySelector(target);
+        if (!el) return;
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+    // --- End Gate 2 navigation ---
   </script>
 </body>
 </html>
