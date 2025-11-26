@@ -730,7 +730,8 @@
           <canvas id="gate4-canvas"></canvas>
         </div>
         <p class="gate4-note">
-          Shader Scope 1 — time-driven breath with edge anchor. Later, the depth of the breath can follow real Whiro chips and Ruaumoko Index.
+          Shader Scope 1 — time-driven breath with edge anchor + firefly particles.
+          Later, the depth of the breath can follow real Whiro chips and Ruaumoko Index.
         </p>
       </div>
     </section>
@@ -946,7 +947,7 @@
     })();
     // --- End Gate 3 live chip render ---
 
-    // --- Gate 4 shader wall (Scope 1: time-only breath with edge anchor) ---
+    // --- Gate 4 shader wall (Scope 1: time-only breath with edge anchor + particles) ---
     (function initGate4Shader(){
       const canvas = document.getElementById('gate4-canvas');
       if (!canvas || !window.THREE) return;
@@ -961,9 +962,10 @@
       const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
       camera.position.z = 1;
 
-      const geometry = new THREE.PlaneGeometry(2, 2);
+      // --- Base wall geometry + shader (unchanged logic) ---
+      const wallGeometry = new THREE.PlaneGeometry(2, 2);
 
-      const vertexShader = `
+      const wallVertexShader = `
         varying vec2 vUv;
         void main() {
           vUv = uv;
@@ -971,7 +973,7 @@
         }
       `;
 
-      const fragmentShader = `
+      const wallFragmentShader = `
         precision highp float;
         varying vec2 vUv;
         uniform float u_time;
@@ -1009,16 +1011,115 @@
         }
       `;
 
-      const material = new THREE.ShaderMaterial({
+      const wallMaterial = new THREE.ShaderMaterial({
         uniforms: {
           u_time: { value: 0.0 }
         },
-        vertexShader: vertexShader,
-        fragmentShader: fragmentShader
+        vertexShader: wallVertexShader,
+        fragmentShader: wallFragmentShader
       });
 
-      const mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
+      const wallMesh = new THREE.Mesh(wallGeometry, wallMaterial);
+      scene.add(wallMesh);
+
+      // --- Firefly particle layer (Scope 1.A) ---
+
+      const particleCount = 4000;
+      const positions = new Float32Array(particleCount * 3);
+      const offsets   = new Float32Array(particleCount * 3);
+
+      for (let i = 0; i < particleCount; i++) {
+        const i3 = i * 3;
+
+        // random position in a disc in front of the wall
+        const r = Math.random() * 1.2;
+        const a = Math.random() * Math.PI * 2.0;
+
+        const x = Math.cos(a) * r;
+        const y = Math.sin(a) * r;
+        const z = (Math.random() - 0.5) * 0.2; // slight depth variation
+
+        positions[i3 + 0] = x;
+        positions[i3 + 1] = y;
+        positions[i3 + 2] = z;
+
+        // random offsets per particle for unique motion
+        offsets[i3 + 0] = Math.random() * 10.0;
+        offsets[i3 + 1] = Math.random() * 10.0;
+        offsets[i3 + 2] = Math.random() * 10.0;
+      }
+
+      const particleGeometry = new THREE.BufferGeometry();
+      particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      particleGeometry.setAttribute('aOffset',  new THREE.BufferAttribute(offsets, 3));
+
+      const particleVertexShader = `
+        uniform float u_time;
+        uniform float u_breathIntensity;
+
+        attribute vec3 aOffset;
+
+        varying float vAlpha;
+
+        void main() {
+          vec3 pos = position;
+
+          float t = u_time * 0.2 + aOffset.x;
+
+          // gentle orbital drift
+          pos.x += 0.1 * sin(t + aOffset.y);
+          pos.y += 0.1 * cos(t + aOffset.z);
+
+          // breathing in z
+          float breath = 0.5 + 0.5 * sin(u_time * 0.8 + aOffset.x);
+          pos.z += (breath - 0.5) * 0.2 * u_breathIntensity;
+
+          // alpha/twinkle based on breath
+          vAlpha = 0.2 + 0.8 * breath;
+
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+
+          // size in screen pixels
+          gl_PointSize = 2.5 + 2.0 * breath;
+        }
+      `;
+
+      const particleFragmentShader = `
+        precision highp float;
+        varying float vAlpha;
+
+        void main() {
+          // gl_PointCoord is 0-1 inside the point
+          vec2 coord = gl_PointCoord - 0.5;
+          float dist = length(coord);
+
+          // soft circular mask
+          float mask = smoothstep(0.5, 0.0, dist);
+
+          vec3 color = vec3(1.0, 0.7, 0.4); // warm puku glow
+
+          float alpha = vAlpha * mask;
+
+          gl_FragColor = vec4(color, alpha);
+        }
+      `;
+
+      const particleMaterial = new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        blending: THREE.AdditiveBlending,
+        uniforms: {
+          u_time: { value: 0.0 },
+          u_breathIntensity: { value: 1.0 }
+        },
+        vertexShader: particleVertexShader,
+        fragmentShader: particleFragmentShader
+      });
+
+      const particlePoints = new THREE.Points(particleGeometry, particleMaterial);
+      scene.add(particlePoints);
+
+      // --- Resize & animation loop ---
 
       function resizeRendererToDisplaySize() {
         const width = canvas.clientWidth;
@@ -1028,7 +1129,11 @@
       }
 
       function animate(timestamp){
-        material.uniforms.u_time.value = timestamp * 0.001; // seconds
+        const t = timestamp * 0.001; // seconds
+
+        wallMaterial.uniforms.u_time.value = t;
+        particleMaterial.uniforms.u_time.value = t;
+
         resizeRendererToDisplaySize();
         renderer.render(scene, camera);
         requestAnimationFrame(animate);
