@@ -131,14 +131,12 @@
     .intro,
     .highlights,
     .engine,
-    .ledger,
     .contact-section{
       padding:clamp(20px,5vw,60px) var(--pad) 0;
     }
     .intro__inner,
     .highlights__inner,
     .engine__inner,
-    .ledger__inner,
     .contact__inner{
       max-width:var(--max);
       margin:0 auto;
@@ -238,66 +236,6 @@
       color:#cbd5e1;
     }
 
-    /* Ledger section */
-    .ledger-layout{
-      display:grid;
-      grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);
-      gap:clamp(18px,3vw,28px);
-      align-items:flex-start;
-    }
-    .ledger-copy p{
-      margin:0 0 10px;
-      font-size:14px;
-      color:#e5e7eb;
-    }
-    .small-note{
-      font-size:12px;
-      color:#9ca3af;
-    }
-    .ledger-chip{
-      border-radius:18px;
-      padding:14px 16px 16px;
-      background:radial-gradient(circle at top left,#111827,#020617);
-      border:1px solid rgba(148,163,184,.5);
-      box-shadow:var(--glow);
-      font-size:12px;
-    }
-    .ledger-chip-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      margin-bottom:8px;
-    }
-    .chip-label{
-      font-size:11px;
-      text-transform:uppercase;
-      letter-spacing:.16em;
-      color:#f97316;
-    }
-    .chip-id{
-      font-size:11px;
-      color:#9ca3af;
-    }
-    .chip-meta{
-      margin:0;
-    }
-    .chip-meta div{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:4px;
-    }
-    .chip-meta dt{
-      margin:0;
-      font-size:11px;
-      color:#9ca3af;
-    }
-    .chip-meta dd{
-      margin:0;
-      font-size:11px;
-    }
-
     /* Contact */
     .contact-layout{
       display:grid;
@@ -330,6 +268,9 @@
       color:#cbd5e1;
       max-width:70ch;
     }
+    .model-shell{
+      position:relative;
+    }
     model-viewer.hei-rata-viewer{
       width:100%;
       height:500px;
@@ -342,6 +283,39 @@
       model-viewer.hei-rata-viewer{
         height:360px;
       }
+    }
+    .ar-button{
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.8);
+      background:rgba(15,23,42,.9);
+      color:#e5e7eb;
+      font-size:12px;
+      padding:6px 14px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      cursor:pointer;
+      position:absolute;
+      bottom:16px;
+      right:16px;
+      box-shadow:0 0 0 1px rgba(15,23,42,.6),var(--glow);
+    }
+    .ar-button:hover{
+      border-color:#e5e7eb;
+      background:rgba(15,23,42,1);
+    }
+    .ar-button-icon{
+      width:14px;
+      height:14px;
+      border-radius:4px;
+      border:1px solid rgba(148,163,184,.8);
+      display:inline-block;
+      box-shadow:inset 0 0 0 1px rgba(15,23,42,.9);
+    }
+    .ar-note{
+      margin:8px 0 0;
+      font-size:11px;
+      color:#9ca3af;
     }
 
     /* Gate 1 → Gate 2 button */
@@ -454,11 +428,6 @@
       color:#e5e7eb;
       margin:0;
     }
-    @media (max-width:900px){
-      .gate3-grid{
-        grid-template-columns:1fr;
-      }
-    }
 
     footer{
       border-top:1px solid rgba(255,255,255,.08);
@@ -493,8 +462,10 @@
     @media (max-width:900px){
       .cards{grid-template-columns:1fr}
       .engine-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-      .ledger-layout,
       .contact-layout{
+        grid-template-columns:1fr;
+      }
+      .gate3-grid{
         grid-template-columns:1fr;
       }
     }
@@ -512,7 +483,7 @@
   <header>
     <a class="brand" href="#home" aria-label="Moko See, Moko Do home">
       <span class="brand__mark" aria-hidden="true"></span>
-      <span class="brand__name">Moko See, Moko Do</span>
+      <span class="brand__name">Moko See Moko Do</span>
     </a>
     <nav class="links" aria-label="Primary">
       <a href="#about">About / Engine</a>
@@ -594,20 +565,34 @@
           Enter Gate 2 — Inside the Grain
         </button>
 
-        <model-viewer
-          id="gate1-viewer"
-          class="hei-rata-viewer"
-          src="assets/hei_rata_gate1_v1.glb"
-          alt="Hei Rata digital taonga"
-          camera-controls
-          auto-rotate
-          auto-rotate-delay="4000"
-          interaction-prompt="auto"
-          shadow-intensity="0.9"
-          exposure="1.1"
-          ar
-          ar-modes="webxr scene-viewer quick-look">
-        </model-viewer>
+        <div class="model-shell">
+          <model-viewer
+            id="gate1-viewer"
+            class="hei-rata-viewer"
+            src="assets/hei_rata_gate1_v1.glb"
+            alt="Hei Rata digital taonga"
+            camera-controls
+            auto-rotate
+            auto-rotate-delay="4000"
+            interaction-prompt="auto"
+            shadow-intensity="0.9"
+            exposure="1.1"
+            camera-orbit="-45deg 25deg 2.5m"
+            field-of-view="35deg"
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            ar-placement="floor"
+            ar-scale="fixed">
+
+            <button slot="ar-button" class="ar-button">
+              <span class="ar-button-icon" aria-hidden="true"></span>
+              <span>View hei rata in your space</span>
+            </button>
+          </model-viewer>
+        </div>
+        <p class="ar-note">
+          On a phone, use “View hei rata in your space” to place the taonga on the floor or a table and walk around it.
+        </p>
       </div>
     </section>
 
@@ -648,8 +633,8 @@
       </div>
     </section>
 
-    <!-- Gate 3 — Evidence Realm -->
-    <section id="gate3-section" aria-labelledby="gate3-heading" class="gate3">
+    <!-- Gate 3 — Evidence Realm (this is now the #evidence anchor) -->
+    <section id="evidence" aria-labelledby="gate3-heading" class="gate3">
       <div class="gate3__inner">
         <h2 id="gate3-heading">Gate 3 — Evidence Realm (Whiro Ledger)</h2>
         <p class="gate3__intro">
@@ -742,61 +727,6 @@
               Time boxed by Māui so each cycle closes with a measurable Tiki — a complete breath.
             </p>
           </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- LEDGER / EVIDENCE -->
-    <section class="ledger" id="evidence" aria-labelledby="ledger-heading">
-      <div class="ledger__inner">
-        <div class="section-heading">
-          <h2 id="ledger-heading">Whiro Ledger · Every chip a Tiki</h2>
-          <p>Doing is nothing without record.</p>
-        </div>
-
-        <div class="ledger-layout">
-          <div class="ledger-copy">
-            <p>
-              Every day, the kaupapa logs its breath — carving sessions, digital renders,
-              reflections, tohu. Each entry becomes a chip: one small Tiki in a growing
-              forest of evidence.
-            </p>
-            <p>
-              Chips/hour, time-to-remedy, Ruaumoko Index — these metrics sit behind the art,
-              proving that balance is not a vibe but a measured state.
-            </p>
-            <p class="small-note">
-              “No chip, no claim.” · “Every receipt is a small pou.”
-            </p>
-          </div>
-
-          <aside class="ledger-chip" aria-label="Example ledger chip">
-            <div class="ledger-chip-header">
-              <span class="chip-label">Sample chip</span>
-              <span class="chip-id">WHIRO_2025-11-19_001</span>
-            </div>
-            <dl class="chip-meta">
-              <div>
-                <dt>Artefact</dt>
-                <dd>MSMD Website — Kaupapa Version</dd>
-              </div>
-              <div>
-                <dt>Action</dt>
-                <dd>New homepage deployed under Whiro Release</dd>
-              </div>
-              <div>
-                <dt>Metric</dt>
-                <dd>1 box · 1 major change · 3 sections touched</dd>
-              </div>
-              <div>
-                <dt>Status</dt>
-                <dd>Active · Ready for next pass</dd>
-              </div>
-            </dl>
-            <p class="small-note">
-              Example only — real chips live in Crown folders and Whiro JSON ledgers.
-            </p>
-          </aside>
         </div>
       </div>
     </section>
