@@ -891,15 +891,37 @@
     // --- End Gate 1 breathing light ---
 
     // --- Gate 2 navigation button (scroll to Inside the Grain) ---
-    document.querySelectorAll('.gate2-button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const target = btn.getAttribute('data-target');
-        const el = document.querySelector(target);
-        if (!el) return;
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
-    // --- End Gate 2 navigation ---
+	document.querySelectorAll('.gate2-button').forEach(btn => {
+	  btn.addEventListener('click', () => {
+		const target = btn.getAttribute('data-target');
+		const el = document.querySelector(target);
+		if (el) {
+		  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+		if (window.msmdSetGateMode) {
+		  window.msmdSetGateMode(2); // Gate 2 colours
+		}
+	  });
+	});
+	// --- End Gate 2 navigation ---
+	// --- Top nav → gate colour mapping ---
+	document.querySelectorAll('header .links a, footer .links a').forEach(link => {
+	  link.addEventListener('click', () => {
+		const href = link.getAttribute('href') || '';
+		if (!window.msmdSetGateMode) return;
+
+		if (href === '#evidence') {
+		  window.msmdSetGateMode(3); // Gate 3 — Evidence Realm
+		} else if (href === '#gate4') {
+		  window.msmdSetGateMode(4); // Gate 4 — Breath Wall
+		} else if (href === '#about') {
+		  window.msmdSetGateMode(1); // Treat About/Engine as Gate 1 identity layer
+		}
+		// #contact leaves the current colour as-is
+	  });
+	});
+	// --- End nav → gate colour mapping ---
+
 
     // --- Gate 3 live chip render ---
     (function loadGate3Chip() {
@@ -947,205 +969,244 @@
     })();
     // --- End Gate 3 live chip render ---
 
-    // --- Gate 4 shader wall (Scope 1: time-only breath with edge anchor + particles) ---
-    (function initGate4Shader(){
-      const canvas = document.getElementById('gate4-canvas');
-      if (!canvas || !window.THREE) return;
+    // --- Gate 4 shader wall (Scope 1: time-only breath with edge anchor + particles + colour wheel) ---
+	(function initGate4Shader(){
+	  const canvas = document.getElementById('gate4-canvas');
+	  if (!canvas || !window.THREE) return;
 
-      const renderer = new THREE.WebGLRenderer({
-        canvas: canvas,
-        antialias: true
-      });
-      renderer.setPixelRatio(window.devicePixelRatio || 1);
+	  const renderer = new THREE.WebGLRenderer({
+		canvas: canvas,
+		antialias: true
+	  });
+	  renderer.setPixelRatio(window.devicePixelRatio || 1);
 
-      const scene = new THREE.Scene();
-      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-      camera.position.z = 1;
+	  const scene = new THREE.Scene();
+	  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+	  camera.position.z = 1;
 
-      // --- Base wall geometry + shader (unchanged logic) ---
-      const wallGeometry = new THREE.PlaneGeometry(2, 2);
+	  // --- Base wall geometry + shader ---
+	  const wallGeometry = new THREE.PlaneGeometry(2, 2);
 
-      const wallVertexShader = `
-        varying vec2 vUv;
-        void main() {
-          vUv = uv;
-          gl_Position = vec4(position, 1.0);
-        }
-      `;
+	  const wallVertexShader = `
+		varying vec2 vUv;
+		void main() {
+		  vUv = uv;
+		  gl_Position = vec4(position, 1.0);
+		}
+	  `;
 
-      const wallFragmentShader = `
-        precision highp float;
-        varying vec2 vUv;
-        uniform float u_time;
+	  const wallFragmentShader = `
+		precision highp float;
+		varying vec2 vUv;
+		uniform float u_time;
+		uniform vec3 u_glowColor;
 
-        void main() {
-          // Normalised UV centred at 0,0
-          vec2 uv = vUv;
-          vec2 centred = uv - 0.5;
+		void main() {
+		  // Normalised UV centred at 0,0
+		  vec2 uv = vUv;
+		  vec2 centred = uv - 0.5;
 
-          // Distance from centre (0 = centre, ~0.7 = corners)
-          float dist = length(centred);
+		  // Distance from centre (0 = centre, ~0.7 = corners)
+		  float dist = length(centred);
 
-          // Base breath – smooth sine over time (about 10s period)
-          float speed = 0.6;
-          float breath = 0.5 + 0.5 * sin(u_time * speed);
+		  // Base breath – smooth sine over time (about 10s period)
+		  float speed = 0.6;
+		  float breath = 0.5 + 0.5 * sin(u_time * speed);
 
-          // Edge anchor: 0 in centre, 1 toward edges
-          float edge = smoothstep(0.35, 0.8, dist);
+		  // Edge anchor: 0 in centre, 1 toward edges
+		  float edge = smoothstep(0.35, 0.8, dist);
 
-          // Bulge strong in centre, fades toward edges
-          float bulge = breath * (1.0 - edge);
+		  // Bulge strong in centre, fades toward edges
+		  float bulge = breath * (1.0 - edge);
 
-          // Subtle radial falloff so the centre glows more
-          float vignette = 1.0 - smoothstep(0.0, 0.9, dist);
+		  // Subtle radial falloff so the centre glows more
+		  float vignette = 1.0 - smoothstep(0.0, 0.9, dist);
 
-          // Colour: deep base + soft cyan-ish glow
-          vec3 base = vec3(0.01, 0.03, 0.06);
-          vec3 glow = vec3(0.20, 0.65, 1.00);
+		  // Colour: deep base + gate-tinted glow
+		  vec3 base = vec3(0.01, 0.03, 0.06);
+		  vec3 glow = u_glowColor;
 
-          float intensity = bulge * vignette;
+		  float intensity = bulge * vignette;
 
-          vec3 color = base + glow * intensity;
+		  vec3 color = base + glow * intensity;
 
-          gl_FragColor = vec4(color, 1.0);
-        }
-      `;
+		  gl_FragColor = vec4(color, 1.0);
+		}
+	  `;
 
-      const wallMaterial = new THREE.ShaderMaterial({
-        uniforms: {
-          u_time: { value: 0.0 }
-        },
-        vertexShader: wallVertexShader,
-        fragmentShader: wallFragmentShader
-      });
+	  const wallMaterial = new THREE.ShaderMaterial({
+		uniforms: {
+		  u_time:      { value: 0.0 },
+		  u_glowColor: { value: new THREE.Color(0.20, 0.65, 1.00) } // default cyan
+		},
+		vertexShader: wallVertexShader,
+		fragmentShader: wallFragmentShader
+	  });
 
-      const wallMesh = new THREE.Mesh(wallGeometry, wallMaterial);
-      scene.add(wallMesh);
+	  const wallMesh = new THREE.Mesh(wallGeometry, wallMaterial);
+	  scene.add(wallMesh);
 
-      // --- Firefly particle layer (Scope 1.A) ---
+	  // --- Firefly particle layer (Scope 1.A) ---
 
-      const particleCount = 4000;
-      const positions = new Float32Array(particleCount * 3);
-      const offsets   = new Float32Array(particleCount * 3);
+	  const particleCount = 4000;
+	  const positions = new Float32Array(particleCount * 3);
+	  const offsets   = new Float32Array(particleCount * 3);
 
-      for (let i = 0; i < particleCount; i++) {
-        const i3 = i * 3;
+	  for (let i = 0; i < particleCount; i++) {
+		const i3 = i * 3;
 
-        // random position in a disc in front of the wall
-        const r = Math.random() * 1.2;
-        const a = Math.random() * Math.PI * 2.0;
+		// random position in a disc in front of the wall
+		const r = Math.random() * 1.2;
+		const a = Math.random() * Math.PI * 2.0;
 
-        const x = Math.cos(a) * r;
-        const y = Math.sin(a) * r;
-        const z = (Math.random() - 0.5) * 0.2; // slight depth variation
+		const x = Math.cos(a) * r;
+		const y = Math.sin(a) * r;
+		const z = (Math.random() - 0.5) * 0.2; // slight depth variation
 
-        positions[i3 + 0] = x;
-        positions[i3 + 1] = y;
-        positions[i3 + 2] = z;
+		positions[i3 + 0] = x;
+		positions[i3 + 1] = y;
+		positions[i3 + 2] = z;
 
-        // random offsets per particle for unique motion
-        offsets[i3 + 0] = Math.random() * 10.0;
-        offsets[i3 + 1] = Math.random() * 10.0;
-        offsets[i3 + 2] = Math.random() * 10.0;
-      }
+		// random offsets per particle for unique motion
+		offsets[i3 + 0] = Math.random() * 10.0;
+		offsets[i3 + 1] = Math.random() * 10.0;
+		offsets[i3 + 2] = Math.random() * 10.0;
+	  }
 
-      const particleGeometry = new THREE.BufferGeometry();
-      particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      particleGeometry.setAttribute('aOffset',  new THREE.BufferAttribute(offsets, 3));
+	  const particleGeometry = new THREE.BufferGeometry();
+	  particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+	  particleGeometry.setAttribute('aOffset',  new THREE.BufferAttribute(offsets, 3));
 
-      const particleVertexShader = `
-        uniform float u_time;
-        uniform float u_breathIntensity;
+	  const particleVertexShader = `
+		uniform float u_time;
+		uniform float u_breathIntensity;
 
-        attribute vec3 aOffset;
+		attribute vec3 aOffset;
 
-        varying float vAlpha;
+		varying float vAlpha;
 
-        void main() {
-          vec3 pos = position;
+		void main() {
+		  vec3 pos = position;
 
-          float t = u_time * 0.2 + aOffset.x;
+		  float t = u_time * 0.2 + aOffset.x;
 
-          // gentle orbital drift
-          pos.x += 0.1 * sin(t + aOffset.y);
-          pos.y += 0.1 * cos(t + aOffset.z);
+		  // gentle orbital drift
+		  pos.x += 0.1 * sin(t + aOffset.y);
+		  pos.y += 0.1 * cos(t + aOffset.z);
 
-          // breathing in z
-          float breath = 0.5 + 0.5 * sin(u_time * 0.8 + aOffset.x);
-          pos.z += (breath - 0.5) * 0.2 * u_breathIntensity;
+		  // breathing in z
+		  float breath = 0.5 + 0.5 * sin(u_time * 0.8 + aOffset.x);
+		  pos.z += (breath - 0.5) * 0.2 * u_breathIntensity;
 
-          // alpha/twinkle based on breath
-          vAlpha = 0.2 + 0.8 * breath;
+		  // alpha/twinkle based on breath
+		  vAlpha = 0.2 + 0.8 * breath;
 
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
+		  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
 
-          // size in screen pixels
-          gl_PointSize = 2.5 + 2.0 * breath;
-        }
-      `;
+		  // size in screen pixels
+		  gl_PointSize = 2.5 + 2.0 * breath;
+		}
+	  `;
 
-      const particleFragmentShader = `
-        precision highp float;
-        varying float vAlpha;
+	  const particleFragmentShader = `
+		precision highp float;
+		varying float vAlpha;
+		uniform vec3 u_particleColor;
 
-        void main() {
-          // gl_PointCoord is 0-1 inside the point
-          vec2 coord = gl_PointCoord - 0.5;
-          float dist = length(coord);
+		void main() {
+		  // gl_PointCoord is 0-1 inside the point
+		  vec2 coord = gl_PointCoord - 0.5;
+		  float dist = length(coord);
 
-          // soft circular mask
-          float mask = smoothstep(0.5, 0.0, dist);
+		  // soft circular mask
+		  float mask = smoothstep(0.5, 0.0, dist);
 
-          vec3 color = vec3(1.0, 0.7, 0.4); // warm puku glow
+		  vec3 color = u_particleColor; // gate-tinted fireflies
 
-          float alpha = vAlpha * mask;
+		  float alpha = vAlpha * mask;
 
-          gl_FragColor = vec4(color, alpha);
-        }
-      `;
+		  gl_FragColor = vec4(color, alpha);
+		}
+	  `;
 
-      const particleMaterial = new THREE.ShaderMaterial({
-        transparent: true,
-        depthWrite: false,
-        blending: THREE.AdditiveBlending,
-        uniforms: {
-          u_time: { value: 0.0 },
-          u_breathIntensity: { value: 1.0 }
-        },
-        vertexShader: particleVertexShader,
-        fragmentShader: particleFragmentShader
-      });
+	  const particleMaterial = new THREE.ShaderMaterial({
+		transparent: true,
+		depthWrite: false,
+		blending: THREE.AdditiveBlending,
+		uniforms: {
+		  u_time:           { value: 0.0 },
+		  u_breathIntensity:{ value: 1.0 },
+		  u_particleColor:  { value: new THREE.Color(1.0, 0.7, 0.4) } // default warm
+		},
+		vertexShader: particleVertexShader,
+		fragmentShader: particleFragmentShader
+	  });
 
-      const particlePoints = new THREE.Points(particleGeometry, particleMaterial);
-      scene.add(particlePoints);
+	  const particlePoints = new THREE.Points(particleGeometry, particleMaterial);
+	  scene.add(particlePoints);
 
-      // --- Resize & animation loop ---
+	  // --- Gate colour wheel mapping ---
 
-      function resizeRendererToDisplaySize() {
-        const width = canvas.clientWidth;
-        const height = canvas.clientHeight;
-        if (width === 0 || height === 0) return;
-        renderer.setSize(width, height, false);
-      }
+	  const gateColors = {
+		1: { // Gate 1 — Hei Rata (Identity / Taonga)
+		  glow:      new THREE.Color(1.0, 0.80, 0.45), // warm gold
+		  particles: new THREE.Color(1.0, 0.85, 0.55)
+		},
+		2: { // Gate 2 — Inside the Grain (Pattern / Wood)
+		  glow:      new THREE.Color(0.55, 0.95, 0.65), // soft green
+		  particles: new THREE.Color(0.70, 1.00, 0.70)
+		},
+		3: { // Gate 3 — Evidence Realm (Whiro / AR / Data)
+		  glow:      new THREE.Color(0.30, 0.70, 1.00), // electric blue
+		  particles: new THREE.Color(0.60, 0.80, 1.00)
+		},
+		4: { // Gate 4 — Te Pūkāea o te Manawa (Breath Wall)
+		  glow:      new THREE.Color(1.00, 0.55, 0.35), // puku orange
+		  particles: new THREE.Color(1.00, 0.70, 0.40)
+		}
+	  };
 
-      function animate(timestamp){
-        const t = timestamp * 0.001; // seconds
+	  function setGateMode(gate){
+		const cfg = gateColors[gate] || gateColors[4];
 
-        wallMaterial.uniforms.u_time.value = t;
-        particleMaterial.uniforms.u_time.value = t;
+		wallMaterial.uniforms.u_glowColor.value.copy(cfg.glow);
+		particleMaterial.uniforms.u_particleColor.value.copy(cfg.particles);
+	  }
 
-        resizeRendererToDisplaySize();
-        renderer.render(scene, camera);
-        requestAnimationFrame(animate);
-      }
+	  // expose to other scripts
+	  window.msmdSetGateMode = setGateMode;
 
-      requestAnimationFrame(animate);
+	  // default state: Gate 4 colours
+	  setGateMode(4);
 
-      window.addEventListener('resize', () => {
-        resizeRendererToDisplaySize();
-      });
-    })();
-    // --- End Gate 4 shader wall ---
+	  // --- Resize & animation loop ---
+
+	  function resizeRendererToDisplaySize() {
+		const width = canvas.clientWidth;
+		const height = canvas.clientHeight;
+		if (width === 0 || height === 0) return;
+		renderer.setSize(width, height, false);
+	  }
+
+	  function animate(timestamp){
+		const t = timestamp * 0.001; // seconds
+
+		wallMaterial.uniforms.u_time.value = t;
+		particleMaterial.uniforms.u_time.value = t;
+
+		resizeRendererToDisplaySize();
+		renderer.render(scene, camera);
+		requestAnimationFrame(animate);
+	  }
+
+	  requestAnimationFrame(animate);
+
+	  window.addEventListener('resize', () => {
+		resizeRendererToDisplaySize();
+	  });
+	})();
+// --- End Gate 4 shader wall ---
+
   </script>
 </body>
 </html>
