@@ -397,6 +397,69 @@
       }
     }
 
+    /* Gate 3 — Evidence Realm */
+    .gate3{
+      padding:clamp(20px,5vw,60px) var(--pad) 0;
+    }
+    .gate3__inner{
+      max-width:var(--max);
+      margin:0 auto;
+    }
+    .gate3__inner h2{
+      margin:0 0 8px;
+      font-size:clamp(20px,3vw,26px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .gate3__intro{
+      margin:0 0 18px;
+      font-size:14px;
+      color:#cbd5e1;
+      max-width:70ch;
+    }
+    .gate3-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:clamp(10px,1.6vw,16px);
+      margin-bottom:18px;
+    }
+    .gate3-card h3{
+      font-size:16px;
+    }
+    .gate3-chip{
+      border-radius:18px;
+      padding:12px 14px 14px;
+      background:radial-gradient(circle at top left,#020617,#020617);
+      border:1px solid rgba(148,163,184,.6);
+      box-shadow:var(--glow);
+      font-size:12px;
+    }
+    .gate3-chip__id{
+      font-size:11px;
+      color:#9ca3af;
+      margin-bottom:4px;
+    }
+    .gate3-chip__title{
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:4px;
+    }
+    .gate3-chip__meta{
+      font-size:11px;
+      color:#cbd5e1;
+      margin-bottom:4px;
+    }
+    .gate3-chip__summary{
+      font-size:12px;
+      color:#e5e7eb;
+      margin:0;
+    }
+    @media (max-width:900px){
+      .gate3-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
     footer{
       border-top:1px solid rgba(255,255,255,.08);
       background:linear-gradient(to top,rgba(255,255,255,.02),rgba(255,255,255,0));
@@ -581,6 +644,47 @@
               The breathing exposure marks time passing over the surface — Proof-of-Breath made visible.
             </p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gate 3 — Evidence Realm -->
+    <section id="gate3-section" aria-labelledby="gate3-heading" class="gate3">
+      <div class="gate3__inner">
+        <h2 id="gate3-heading">Gate 3 — Evidence Realm (Whiro Ledger)</h2>
+        <p class="gate3__intro">
+          This gate holds the receipts behind the kaupapa. Every action leaves a chip, every chip becomes a Tiki,
+          and together they form the living landscape of the whare.
+        </p>
+
+        <div class="cards gate3-grid">
+          <article class="card gate3-card">
+            <h3>Daily Chips</h3>
+            <p>
+              Small, honest entries captured in Whiro — one box at a time.
+              Each chip proves that the mahi happened, in a real body, in real time.
+            </p>
+          </article>
+
+          <article class="card gate3-card">
+            <h3>Landscape of Mahi</h3>
+            <p>
+              Forest floor, hills, maunga, ridgelines, lightning.
+              Chips stack into terrain so you can see where the kaupapa has truly walked.
+            </p>
+          </article>
+
+          <article class="card gate3-card">
+            <h3>Crown Receipts</h3>
+            <p>
+              When enough chips align, they seal into a Crown — fixed versions, hashed folders,
+              and documents that protect the pattern for the mokopuna.
+            </p>
+          </article>
+        </div>
+
+        <div id="gate3-chip" class="gate3-chip" aria-live="polite">
+          Loading a sample chip from the Whiro ledger&hellip;
         </div>
       </div>
     </section>
@@ -803,6 +907,52 @@
       });
     });
     // --- End Gate 2 navigation ---
+
+    // --- Gate 3 live chip render ---
+    (function loadGate3Chip() {
+      const target = document.getElementById('gate3-chip');
+      if (!target) return;
+
+      fetch('JSON/gate3_sample_chip.json')
+        .then(res => {
+          if (!res.ok) throw new Error('Chip fetch failed');
+          return res.json();
+        })
+        .then(chip => {
+          const id    = chip.id || 'UNKNOWN_ID';
+          const title = chip.title || 'Untitled chip';
+          const date  = chip.date || 'No date';
+
+          const artefactName = chip.artefact && chip.artefact.name
+            ? chip.artefact.name
+            : 'Unnamed artefact';
+
+          const layer = chip.landscape && chip.landscape.layer
+            ? chip.landscape.layer
+            : 'unknown layer';
+
+          const height = chip.landscape && chip.landscape.height != null
+            ? chip.landscape.height
+            : '?';
+
+          const summary = chip.action && chip.action.summary
+            ? chip.action.summary
+            : 'No summary available.';
+
+          target.innerHTML = `
+            <div class="gate3-chip__id">${id} · ${date}</div>
+            <div class="gate3-chip__title">${title}</div>
+            <div class="gate3-chip__meta">
+              Artefact: ${artefactName} · Landscape: ${layer} (height ${height})
+            </div>
+            <p class="gate3-chip__summary">${summary}</p>
+          `;
+        })
+        .catch(() => {
+          target.textContent = 'Chip unavailable — ledger is closed to the public right now.';
+        });
+    })();
+    // --- End Gate 3 live chip render ---
   </script>
 </body>
 </html>

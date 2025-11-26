@@ -1,0 +1,18 @@
+{
+  "id": "WHIRO_2025-11-26_003",
+  "title": "Gate 1 + Gate 2 — Live Deployment",
+  "date": "2025-11-26",
+  "artefact": {
+    "name": "Hei Rata Gate Chain",
+    "kind": "web_gate_chain"
+  },
+  "action": {
+    "summary": "Deployed the breathing Hei Rata taonga as Gate 1 and built Gate 2 — Inside the Grain on the live site."
+  },
+  "landscape": {
+    "layer": "hill",
+    "height": 4,
+    "season": "whiro",
+    "weather": ["clear"]
+  }
+}
