@@ -268,9 +268,7 @@
       color:#cbd5e1;
       max-width:70ch;
     }
-    .model-shell{
-      position:relative;
-    }
+    .model-shell{position:relative;}
     model-viewer.hei-rata-viewer{
       width:100%;
       height:500px;
@@ -429,6 +427,48 @@
       margin:0;
     }
 
+    /* Gate 4 — The Breath Wall (Shader) */
+    .gate4{
+      padding:clamp(20px,5vw,60px) var(--pad) 0;
+    }
+    .gate4__inner{
+      max-width:var(--max);
+      margin:0 auto;
+    }
+    .gate4__inner h2{
+      margin:0 0 8px;
+      font-size:clamp(20px,3vw,26px);
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    .gate4__intro{
+      margin:0 0 18px;
+      font-size:14px;
+      color:#cbd5e1;
+      max-width:70ch;
+    }
+    .gate4-canvas-wrap{
+      position:relative;
+      width:100%;
+      max-width:var(--max);
+      margin:0 auto;
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:var(--glow);
+      background:#020617;
+      aspect-ratio: 16 / 9;
+    }
+    #gate4-canvas{
+      width:100%;
+      height:100%;
+      display:block;
+    }
+    .gate4-note{
+      margin:10px 0 0;
+      font-size:11px;
+      color:#9ca3af;
+    }
+
     footer{
       border-top:1px solid rgba(255,255,255,.08);
       background:linear-gradient(to top,rgba(255,255,255,.02),rgba(255,255,255,0));
@@ -478,6 +518,8 @@
 
   <!-- model-viewer library for Gate 1 -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <!-- Three.js for Gate 4 shader wall -->
+  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 </head>
 <body>
   <header>
@@ -488,6 +530,7 @@
     <nav class="links" aria-label="Primary">
       <a href="#about">About / Engine</a>
       <a href="#evidence">Evidence</a>
+      <a href="#gate4">Breath Wall</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
@@ -633,7 +676,7 @@
       </div>
     </section>
 
-    <!-- Gate 3 — Evidence Realm (this is now the #evidence anchor) -->
+    <!-- Gate 3 — Evidence Realm -->
     <section id="evidence" aria-labelledby="gate3-heading" class="gate3">
       <div class="gate3__inner">
         <h2 id="gate3-heading">Gate 3 — Evidence Realm (Whiro Ledger)</h2>
@@ -671,6 +714,24 @@
         <div id="gate3-chip" class="gate3-chip" aria-live="polite">
           Loading a sample chip from the Whiro ledger&hellip;
         </div>
+      </div>
+    </section>
+
+    <!-- Gate 4 — The Breath Wall (Shader) -->
+    <section id="gate4" aria-labelledby="gate4-heading" class="gate4">
+      <div class="gate4__inner">
+        <h2 id="gate4-heading">Gate 4 — Te Pūkāea o te Manawa (The Breath Wall)</h2>
+        <p class="gate4__intro">
+          A live breathing plane driven by law, not footage. The centre rises and falls like a lung,
+          while the edges stay anchored — a wall that remembers its frame even as it moves.
+        </p>
+
+        <div class="gate4-canvas-wrap">
+          <canvas id="gate4-canvas"></canvas>
+        </div>
+        <p class="gate4-note">
+          Shader Scope 1 — time-driven breath with edge anchor. Later, the depth of the breath can follow real Whiro chips and Ruaumoko Index.
+        </p>
       </div>
     </section>
 
@@ -771,6 +832,7 @@
         <nav class="links" aria-label="Secondary">
           <a href="#about">About</a>
           <a href="#evidence">Evidence Strip</a>
+          <a href="#gate4">Breath Wall</a>
           <a href="#contact">Contact</a>
         </nav>
       </div>
@@ -883,6 +945,102 @@
         });
     })();
     // --- End Gate 3 live chip render ---
+
+    // --- Gate 4 shader wall (Scope 1: time-only breath with edge anchor) ---
+    (function initGate4Shader(){
+      const canvas = document.getElementById('gate4-canvas');
+      if (!canvas || !window.THREE) return;
+
+      const renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        antialias: true
+      });
+      renderer.setPixelRatio(window.devicePixelRatio || 1);
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+      camera.position.z = 1;
+
+      const geometry = new THREE.PlaneGeometry(2, 2);
+
+      const vertexShader = `
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = vec4(position, 1.0);
+        }
+      `;
+
+      const fragmentShader = `
+        precision highp float;
+        varying vec2 vUv;
+        uniform float u_time;
+
+        void main() {
+          // Normalised UV centred at 0,0
+          vec2 uv = vUv;
+          vec2 centred = uv - 0.5;
+
+          // Distance from centre (0 = centre, ~0.7 = corners)
+          float dist = length(centred);
+
+          // Base breath – smooth sine over time (about 10s period)
+          float speed = 0.6;
+          float breath = 0.5 + 0.5 * sin(u_time * speed);
+
+          // Edge anchor: 0 in centre, 1 toward edges
+          float edge = smoothstep(0.35, 0.8, dist);
+
+          // Bulge strong in centre, fades toward edges
+          float bulge = breath * (1.0 - edge);
+
+          // Subtle radial falloff so the centre glows more
+          float vignette = 1.0 - smoothstep(0.0, 0.9, dist);
+
+          // Colour: deep base + soft cyan-ish glow
+          vec3 base = vec3(0.01, 0.03, 0.06);
+          vec3 glow = vec3(0.20, 0.65, 1.00);
+
+          float intensity = bulge * vignette;
+
+          vec3 color = base + glow * intensity;
+
+          gl_FragColor = vec4(color, 1.0);
+        }
+      `;
+
+      const material = new THREE.ShaderMaterial({
+        uniforms: {
+          u_time: { value: 0.0 }
+        },
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader
+      });
+
+      const mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+
+      function resizeRendererToDisplaySize() {
+        const width = canvas.clientWidth;
+        const height = canvas.clientHeight;
+        if (width === 0 || height === 0) return;
+        renderer.setSize(width, height, false);
+      }
+
+      function animate(timestamp){
+        material.uniforms.u_time.value = timestamp * 0.001; // seconds
+        resizeRendererToDisplaySize();
+        renderer.render(scene, camera);
+        requestAnimationFrame(animate);
+      }
+
+      requestAnimationFrame(animate);
+
+      window.addEventListener('resize', () => {
+        resizeRendererToDisplaySize();
+      });
+    })();
+    // --- End Gate 4 shader wall ---
   </script>
 </body>
 </html>
