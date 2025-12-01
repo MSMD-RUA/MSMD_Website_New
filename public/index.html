@@ -4,191 +4,179 @@
   <meta charset="utf-8" />
   
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Moko See Moko Do — Proof of Breath</title>
-  <meta name="description" content="Moko See Moko Do / Ngā Wai o Rua — a living whare in code and carving. Every cut a law, every chip a Tiki.">
   
-	  <title>Moko See Moko Do | Māori Digital Carving Engine & Art Studio</title>
-	<meta name="description" content="Experience Moko See Moko Do — a Māori digital carving engine blending 3D art, motion, ritual, and real-time creation. Explore gates, walls, and live updates.">
-	<meta name="keywords" content="moko see moko do, maori digital art, digital carving, maori engine, msmd, realtime carving, indigenous digital art, art installation, maori design">
+  <title>Moko See Moko Do | Māori Digital Carving Engine & Art Studio</title>
+  <meta name="description" content="Experience Moko See Moko Do — a Māori digital carving engine that turns feeling into evidence through code, carving, light, and real-time creation. Explore gates, walls, and live updates.">
+  <meta name="keywords" content="moko see moko do, maori digital carving, maori digital engine, indigenous digital art, art installation, maori design">
 
-	<link rel="canonical" href="https://mokoseemokodo.com/">
+  <link rel="canonical" href="https://mokoseemokodo.com/">
 
-	<meta property="og:title" content="Moko See Moko Do | Māori Digital Carving Engine & Art Studio">
-	<meta property="og:description" content="Experience Moko See Moko Do — a Māori digital carving engine blending 3D art, motion, ritual, and real-time creation.">
-	<meta property="og:url" content="https://mokoseemokodo.com/">
-	<meta property="og:type" content="website">
-	<meta property="og:image" content="https://mokoseemokodo.com/assets/hero.jpg">
+  <meta property="og:title" content="Moko See Moko Do | Māori Digital Carving Engine & Art Studio">
+  <meta property="og:description" content="A living Māori digital carving engine where carving, code, light, and breath move as one.">
+  <meta property="og:url" content="https://mokoseemokodo.com/">
+  <meta property="og:type" content="website">
+  <!-- use existing poster PNG as OG image -->
+  <meta property="og:image" content="https://mokoseemokodo.com/assets/karakia_blink_poster.png">
 
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="Moko See Moko Do | Māori Digital Carving Engine & Art Studio">
-	<meta name="twitter:description" content="Experience Moko See Moko Do — a Māori digital carving engine blending 3D art, motion, ritual, and real-time creation.">
-	<meta name="twitter:image" content="https://mokoseemokodo.com/assets/hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Moko See Moko Do | Māori Digital Carving Engine & Art Studio">
+  <meta name="twitter:description" content="Follow the breathing wall, the Whiro ledger, and the living gates of a Māori digital carving engine.">
+  <meta name="twitter:image" content="https://mokoseemokodo.com/assets/karakia_blink_poster.png">
 
-	<script type="application/ld+json">
-	{
-	  "@context": "https://schema.org",
-	  "@type": "WebSite",
-	  "name": "Moko See Moko Do (MSMD)",
-	  "url": "https://mokoseemokodo.com",
-	  "image": "https://mokoseemokodo.com/assets/karakia_blink_poster.png",
-	  "creator": {
-		"@type": "Person",
-		"name": "Kade Cowper",
-		"jobTitle": "Kai Whakairo / Founder of MSMD",
-		"url": "https://mokoseemokodo.com"
-	  },
-	  "description": "Moko See Moko Do is a behavioural and creative engine blending carving (whakairo), digital motion, Māori law, and ledger-based practice. A living whare in code and carving — doing > talking. Watch the wall breathe, follow the ledger, and see the chips turn into pattern.",
-	  "keywords": [
-		"Moko See Moko Do",
-		"MSMD",
-		"Ngā Wai o Rua",
-		"Māori digital carving",
-		"whakairo",
-		"Aotearoa art engine",
-		"Proof of Breath",
-		"Whiro ledger",
-		"Rongo chips",
-		"Māori motion design",
-		"kaupapa Māori creative technology"
-	  ],
-	  "inLanguage": "mi-NZ",
-	  "genre": "Creative Technology / Māori Arts / Digital Ritual Engine",
-	  "publisher": {
-		"@type": "Organization",
-		"name": "Moko See Moko Do",
-		"url": "https://mokoseemokodo.com"
-	  },
-	  "mainEntityOfPage": "https://mokoseemokodo.com"
-	}
-</script>
-
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" sizes="180x180" />
-  <link rel="icon" href="assets/favicon.png" type="image/png" />
+  <!-- real favicon + touch icon from your assets folder -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 
   <style>
     :root{
-      --pad:clamp(16px,3vw,40px);
-      --gap:clamp(12px,2.2vw,28px);
-      --glow:0 0 0 rgba(255,255,255,0), 0 0 24px rgba(103,187,255,.18), 0 0 64px rgba(103,187,255,.12);
+      --bg:#020617;
+      --fg:#e5e7eb;
+      --accent:#38bdf8;
+      --accent-soft:#0f172a;
+      --accent-strong:#1d4ed8;
+      --pad:clamp(16px,5vw,40px);
       --max:1100px;
+      --glow:0 0 28px rgba(56,189,248,.3),
+              0 0 80px rgba(30,64,175,.5);
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
+    html,body{
       margin:0;
-      background:#0b0b0c;
-      color:#e9ecef;
-      font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;
-      -webkit-font-smoothing:antialiased;
+      padding:0;
+      background:radial-gradient(circle at top,#020617 0,#000 60%,#020617 100%);
+      color:var(--fg);
+      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+      scroll-behavior:smooth;
+    }
+    body{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    a{
+      color:var(--accent);
+      text-decoration:none;
+    }
+    a:hover{
+      text-decoration:underline;
     }
 
-    header,footer{padding:var(--pad)}
+    .page-shell{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+    main{
+      flex:1 0 auto;
+    }
+    footer{
+      flex-shrink:0;
+      padding:16px var(--pad) 20px;
+      font-size:12px;
+      color:#6b7280;
+      border-top:1px solid rgba(51,65,85,.8);
+      background:radial-gradient(circle at top,#020617,#000);
+    }
+    footer a{color:#9ca3af}
+    footer a:hover{color:#e5e7eb}
+
+    .band-divider{
+      height:1px;
+      width:100%;
+      background:linear-gradient(90deg,transparent,#38bdf8,transparent);
+      opacity:.5;
+    }
+
     header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(18px);
+      background:radial-gradient(circle at top,#020617ee,#000000f5 60%,#020617ee 100%);
+      border-bottom:1px solid rgba(15,23,42,.9);
+      box-shadow:0 20px 60px rgba(15,23,42,.95);
+    }
+    .header-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:10px var(--pad);
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:var(--gap);
+      gap:12px;
     }
     .brand{
       display:flex;
       align-items:center;
-      gap:12px;
-      text-decoration:none;
-      color:inherit;
+      gap:10px;
     }
-    .brand__mark{
-      inline-size:28px;
-      block-size:28px;
-      border-radius:7px;
-      background:radial-gradient(60% 60% at 40% 40%,#2f3b46,#121315);
-      box-shadow:var(--glow);
+    .logo-mark{
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      box-shadow:0 0 18px rgba(248,250,252,.3);
     }
-    .brand__name{font-weight:600;letter-spacing:.02em}
-    .links{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
+    .logo-text{
+      font-size:13px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:#cbd5e1;
+      white-space:nowrap;
     }
-    .links a{
-      color:inherit;
-      text-decoration:none;
-      border-bottom:1px dotted rgba(148,163,184,.5);
-      font-size:14px;
+    nav{display:flex;gap:12px;font-size:12px}
+    .nav-link{
+      opacity:.76;
+      border-bottom:1px solid transparent;
+      padding-bottom:4px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-size:11px;
+      color:#94a3b8
     }
-    .links a:hover{
-      color:#e2e8f0;
+    .nav-link:hover{
+      opacity:1;
       border-bottom-color:#e2e8f0;
+      color:#e2e8f0;
     }
 
-    /* PARE banner */
-    .pare-banner{
-      padding:clamp(12px,2.4vw,24px) var(--pad) 0;
-      display:grid;
-      place-items:center;
+    @media (max-width:720px){
+      .header-inner{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      nav{
+        flex-wrap:wrap;
+      }
     }
+
+    .pare-banner{
+      padding:10px var(--pad) 0;
+    }
+	
+	.pare-banner-inner{
+	  max-width:var(--max);
+	  margin:0 auto;
+	  padding:0;
+	  border-radius:0;
+	  background:none;
+	  border:none;
+	  box-shadow:none;
+	}
+
     .pare-banner img{
       display:block;
       max-width:min(1100px,92vw);
       width:100%;
       opacity:.98;
-      filter: drop-shadow(0 0 24px rgba(103,187,255,.18))
-              drop-shadow(0 0 64px rgba(103,187,255,.12));
+      filter:drop-shadow(0 0 24px rgba(103,187,255,.18))
+             drop-shadow(0 0 64px rgba(103,187,255,.12));
     }
-    .pare-fallback{
-      width:100%;
-      max-width:min(1100px,92vw);
-      height:64px;
-      border-radius:18px;
-      background:
-        radial-gradient(60% 60% at 50% 50%, rgba(103,187,255,.22), rgba(103,187,255,.08) 60%, rgba(0,0,0,0) 70%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      box-shadow: 0 0 0 1px rgba(255,255,255,.06) inset, var(--glow);
-    }
-
-    /* HERO (video only) */
-    .hero{position:relative;background:#000;}
-    .hero__wrap{position:relative;width:100%;height:auto;overflow:hidden}
-    video#hero{
-      display:block;
-      width:100%;
-      height:auto;
-      object-fit:cover;
-      object-position:center;
-      background:#000;
-    }
-    .vignette{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:radial-gradient(100% 120% at 50% 50%, rgba(0,0,0,0) 55%, rgba(0,0,0,.25) 90%);
-    }
-
-    /* Blink overlay */
-    #blink{
-      position:absolute;
-      inset:0;
-      display:grid;
-      place-items:center;
-      background:#000;
-      z-index:2;
-      transition:opacity .35s ease;
-      cursor:pointer;
-    }
-    #blink.fade{opacity:0}
-    #blink img{
-      max-width:min(80%,520px);
-      opacity:.9;
-    }
-
-    /* Generic section wrapper */
-    main{padding-bottom:40px;}
-    section{scroll-margin-top:72px;}
 
     .intro,
     .highlights,
     .engine,
     .contact-section{
-      padding:clamp(20px,5vw,60px) var(--pad) 0;
+      padding:clamp(20px,5vw,60px) var(--pad) clamp(20px,5vw,60px);
     }
     .intro__inner,
     .highlights__inner,
@@ -198,51 +186,77 @@
       margin:0 auto;
     }
 
-    /* Intro section */
     .intro__inner{text-align:center}
     h1{
-      font-size:clamp(28px,5.6vw,72px);
-      line-height:1.02;
-      margin:.2em 0 .2em;
+      font-size:clamp(28px,5.6vw,36px);
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      margin:0 0 10px;
     }
     .subtitle{
-      font-size:clamp(16px,2.6vw,22px);
-      color:#cbd5e1;
-      margin:0 auto;
-      max-width:68ch;
-    }
-    .yt-links{
-      margin:12px auto 0;
-      text-align:center;
-      opacity:.95;
-    }
-    .yt-links a{
-      color:#e2e8f0;
-      text-decoration:underline;
-      text-underline-offset:2px;
+      margin:0 0 8px;
       font-size:14px;
+      color:#cbd5e1;
+      line-height:1.6;
     }
-    .yt-links a:hover{text-decoration:none}
+    .yoke-line{
+      margin:0 0 4px;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#94a3b8;
+    }
+    .key-line{
+      margin:6px 0 0;
+      font-size:13px;
+      color:#e5e7eb;
+    }
 
-    /* Highlights (three cards) */
-    .highlights{padding-top:clamp(18px,3vw,40px);}
+    .hero{
+      padding:clamp(6px,1vw,12px) var(--pad) 0;
+      display:grid;
+      place-items:center;
+    }
+    .hero-inner{
+      max-width:var(--max);
+      margin:0 auto;
+      border-radius:32px;
+      overflow:hidden;
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,.8),
+        0 0 80px rgba(103,187,255,.26),
+        0 0 180px rgba(30,64,175,.5);
+      background:radial-gradient(circle at top,#020617,#000);
+    }
+    .hero-inner video{
+      display:block;
+      width:100%;
+      height:auto;
+      max-height:min(60vh,680px);
+      object-fit:cover;
+    }
+
+    .highlights{
+      padding-top:clamp(18px,3vw,40px);
+      padding-bottom:clamp(18px,3vw,40px);
+    }
     .cards{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
       gap:clamp(10px,1.6vw,16px);
     }
     .card{
-      position:relative;
-      border-radius:18px;
-      padding:clamp(14px,2.2vw,20px);
-      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.08);
-      box-shadow:0 0 0 1px rgba(255,255,255,.02) inset, var(--glow);
+      border-radius:24px;
+      padding:clamp(14px,1.8vw,22px);
+      background:radial-gradient(circle at top,#020617,#020617 40%,#020617 100%);
+      border:1px solid rgba(148,163,184,.65);
+      box-shadow:var(--glow);
     }
     .card h3{
       margin:0 0 6px;
-      font-weight:600;
-      letter-spacing:.02em;
+      font-size:15px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
     }
     .card p{
       margin:0;
@@ -250,7 +264,6 @@
       font-size:clamp(14px,1.8vw,16px);
     }
 
-    /* Shared heading style for deeper sections */
     .section-heading{
       margin-bottom:18px;
       text-align:left;
@@ -267,16 +280,61 @@
       color:#cbd5e1;
     }
 
-    /* Engine / AEIOU */
+    .engine__inner{
+      display:grid;
+      grid-template-columns:2fr 3fr;
+      gap:clamp(18px,3vw,32px);
+      align-items:flex-start;
+    }
+    .engine-aside{
+      border-radius:24px;
+      padding:16px 16px 18px;
+      background:radial-gradient(circle at top left,#020617,#000);
+      border:1px solid rgba(148,163,184,.7);
+      box-shadow:var(--glow);
+      font-size:13px;
+      color:#cbd5e1;
+    }
+    .engine-aside h3{
+      margin:0 0 4px;
+      font-size:14px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .engine-aside p{
+      margin:0 0 6px;
+      line-height:1.5;
+    }
+    .engine-aeio-u{
+      margin-top:8px;
+      font-size:12px;
+      line-height:1.6;
+      color:#9ca3af;
+    }
+    .engine-aeio-u strong{
+      color:#e5e7eb;
+      font-weight:600;
+    }
+
     .engine-grid{
       display:grid;
       grid-template-columns:repeat(5,minmax(0,1fr));
-      gap:clamp(10px,1.4vw,14px);
+      gap:10px;
+      font-size:11px;
+    }
+    .engine-card{
+      border-radius:18px;
+      padding:10px 10px 12px;
+      border:1px solid rgba(148,163,184,.7);
+      background:radial-gradient(circle at top,#020617,#01040a 70%,#000);
+      box-shadow:
+        0 0 0 1px rgba(15,23,42,.9),
+        0 0 40px rgba(15,23,42,1);
     }
     .engine-card h3{
       font-size:18px;
       margin:0 0 4px;
-      letter-spacing:.1em;
+      letter-spacing:.16em;
       text-transform:uppercase;
     }
     .engine-tag{
@@ -292,21 +350,8 @@
       color:#cbd5e1;
     }
 
-    /* Contact */
-    .contact-layout{
-      display:grid;
-      grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);
-      gap:clamp(18px,3vw,28px);
-    }
-    .contact-layout p{
-      font-size:14px;
-      color:#e5e7eb;
-      margin:0 0 10px;
-    }
-
-    /* Gate 1 — Hei Rata viewer */
     #gate1-section{
-      padding:clamp(20px,5vw,60px) var(--pad) 0;
+      padding:clamp(20px,5vw,60px) var(--pad) clamp(20px,5vw,60px);
     }
     #gate1-section-inner{
       max-width:var(--max);
@@ -315,177 +360,159 @@
     #gate1-section h2{
       margin:0 0 8px;
       font-size:clamp(20px,3vw,26px);
-      letter-spacing:.08em;
+      letter-spacing:.12em;
       text-transform:uppercase;
     }
     #gate1-section p{
-      margin:0 0 16px;
       font-size:14px;
       color:#cbd5e1;
       max-width:70ch;
     }
-    .model-shell{position:relative;}
-    model-viewer.hei-rata-viewer{
-      width:100%;
-      height:500px;
-      background:#050505;
-      border-radius:24px;
-      outline:none;
+    .gate1-layout{
+      display:grid;
+      grid-template-columns:3fr 2fr;
+      gap:clamp(18px,3vw,32px);
+      margin-top:18px;
+      align-items:flex-start;
+    }
+    .gate1-copy{
+      font-size:14px;
+      color:#cbd5e1;
+      line-height:1.6;
+    }
+    .gate1-copy p{
+      margin:0 0 8px;
+    }
+    .gate1-copy strong{color:#e5e7eb}
+    .gate1-meta{
+      font-size:12px;
+      color:#9ca3af;
+      margin-top:6px;
+    }
+    .gate1-meta strong{
+      color:#e5e7eb;
+    }
+
+    .gate1-model{
+      margin:20px 0 0;
+      border-radius:28px;
+      padding:10px;
+      background:radial-gradient(circle at top left,#020617,#000);
+      border:1px solid rgba(148,163,184,.8);
       box-shadow:var(--glow);
     }
-    @media (max-width:768px){
-      model-viewer.hei-rata-viewer{
-        height:360px;
-      }
-    }
-    .ar-button{
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.8);
-      background:rgba(15,23,42,.9);
-      color:#e5e7eb;
-      font-size:12px;
-      padding:6px 14px;
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      cursor:pointer;
-      position:absolute;
-      bottom:16px;
-      right:16px;
-      box-shadow:0 0 0 1px rgba(15,23,42,.6),var(--glow);
-    }
-    .ar-button:hover{
-      border-color:#e5e7eb;
-      background:rgba(15,23,42,1);
-    }
-    .ar-button-icon{
-      width:14px;
-      height:14px;
-      border-radius:4px;
-      border:1px solid rgba(148,163,184,.8);
-      display:inline-block;
-      box-shadow:inset 0 0 0 1px rgba(15,23,42,.9);
+    model-viewer{
+      width:100%;
+      min-height:260px;
+      background:radial-gradient(circle at top,#020617,#000);
+      border-radius:22px;
+      border:1px solid rgba(15,23,42,.9);
+      overflow:hidden;
     }
     .ar-note{
       margin:8px 0 0;
-      font-size:11px;
+      font-size:12px;
       color:#9ca3af;
     }
 
-    /* Gate 1 → Gate 2 button */
-    .gate2-button{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      margin:0 0 12px;
-      padding:6px 14px;
-      border-radius:999px;
-      border:1px solid rgba(148,163,184,.6);
-      background:rgba(15,23,42,.8);
-      color:#e5e7eb;
-      font-size:13px;
-      cursor:pointer;
-    }
-    .gate2-button:hover{
-      border-color:#e5e7eb;
-      background:rgba(15,23,42,.95);
-    }
-
-    /* Gate 2 — Inside the Grain */
     .gate2{
-      padding:clamp(20px,5vw,60px) var(--pad) 0;
+      padding:clamp(20px,5vw,60px) var(--pad) clamp(20px,5vw,60px);
     }
     .gate2__inner{
       max-width:var(--max);
       margin:0 auto;
     }
-    .gate2__inner h2{
-      margin:0 0 8px;
+    .gate2__heading{
+      margin-bottom:14px;
+    }
+    .gate2__heading h2{
+      margin:0 0 6px;
       font-size:clamp(20px,3vw,26px);
-      letter-spacing:.08em;
+      letter-spacing:.12em;
       text-transform:uppercase;
     }
     .gate2__intro{
-      margin:0 0 18px;
       font-size:14px;
       color:#cbd5e1;
       max-width:70ch;
+      margin:0 0 14px;
     }
     .gate2-grid{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:clamp(10px,1.6vw,16px);
+      gap:clamp(12px,2vw,18px);
+      margin-top:10px;
+    }
+    .gate2-card{
+      border-radius:22px;
+      padding:12px 12px 14px;
+      border:1px solid rgba(148,163,184,.7);
+      background:radial-gradient(circle at top,#020617,#000);
+      box-shadow:var(--glow);
+      font-size:13px;
     }
     .gate2-card h3{
-      font-size:16px;
+      margin:0 0 4px;
+      font-size:13px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:#e5e7eb;
     }
-    @media (max-width:900px){
-      .gate2-grid{
-        grid-template-columns:1fr;
-      }
+    .gate2-card p{
+      font-size:13px;
+      color:#cbd5e1;
     }
 
-    /* Gate 3 — Evidence Realm */
     .gate3{
-      padding:clamp(20px,5vw,60px) var(--pad) 0;
+      padding:clamp(20px,5vw,60px) var(--pad) clamp(20px,5vw,60px);
     }
     .gate3__inner{
       max-width:var(--max);
       margin:0 auto;
     }
-    .gate3__inner h2{
-      margin:0 0 8px;
+    .gate3__heading h2{
+      margin:0 0 6px;
       font-size:clamp(20px,3vw,26px);
-      letter-spacing:.08em;
+      letter-spacing:.12em;
       text-transform:uppercase;
     }
     .gate3__intro{
-      margin:0 0 18px;
       font-size:14px;
       color:#cbd5e1;
       max-width:70ch;
+      margin:0 0 16px;
     }
-    .gate3-grid{
+    .evidence-grid{
       display:grid;
       grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:clamp(10px,1.6vw,16px);
-      margin-bottom:18px;
+      gap:clamp(12px,2vw,18px);
     }
-    .gate3-card h3{
-      font-size:16px;
-    }
-    .gate3-chip{
-      border-radius:18px;
-      padding:12px 14px 14px;
-      background:radial-gradient(circle at top left,#020617,#020617);
-      border:1px solid rgba(148,163,184,.6);
+    .evidence-card{
+      border-radius:22px;
+      padding:12px 12px 14px;
+      border:1px solid rgba(148,163,184,.7);
+      background:radial-gradient(circle at top,#020617,#000);
       box-shadow:var(--glow);
-      font-size:12px;
-    }
-    .gate3-chip__id{
-      font-size:11px;
-      color:#9ca3af;
-      margin-bottom:4px;
-    }
-    .gate3-chip__title{
       font-size:13px;
-      font-weight:600;
-      margin-bottom:4px;
-    }
-    .gate3-chip__meta{
-      font-size:11px;
       color:#cbd5e1;
-      margin-bottom:4px;
     }
-    .gate3-chip__summary{
-      font-size:12px;
+    .evidence-card h3{
+      margin:0 0 4px;
+      font-size:13px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
       color:#e5e7eb;
-      margin:0;
+    }
+    .evidence-card p{
+      margin:0 0 6px;
+    }
+    .metric{
+      font-size:12px;
+      color:#a5b4fc;
     }
 
-    /* Gate 4 — The Breath Wall (Shader) */
     .gate4{
-      padding:clamp(20px,5vw,60px) var(--pad) 0;
+      padding:clamp(20px,5vw,60px) var(--pad) clamp(20px,5vw,60px);
     }
     .gate4__inner{
       max-width:var(--max);
@@ -494,144 +521,255 @@
     .gate4__inner h2{
       margin:0 0 8px;
       font-size:clamp(20px,3vw,26px);
-      letter-spacing:.08em;
+      letter-spacing:.12em;
       text-transform:uppercase;
     }
-    .gate4__intro{
-      margin:0 0 18px;
+    .gate4__inner p{
       font-size:14px;
       color:#cbd5e1;
       max-width:70ch;
     }
-    .gate4-canvas-wrap{
-      position:relative;
-      width:100%;
-      max-width:var(--max);
-      margin:0 auto;
-      border-radius:24px;
-      overflow:hidden;
+    .gate4-rows{
+      display:grid;
+      grid-template-columns:2fr 3fr;
+      gap:clamp(18px,3vw,30px);
+      margin-top:18px;
+      align-items:flex-start;
+    }
+    .gate4-copy{
+      font-size:14px;
+      color:#cbd5e1;
+      line-height:1.6;
+    }
+    .gate4-copy p{margin:0 0 8px}
+    .gate4-copy strong{color:#e5e7eb}
+    .wall-block{
+      border-radius:26px;
+      padding:14px;
+      border:1px solid rgba(148,163,184,.8);
+      background:radial-gradient(circle at top,#020617,#000);
       box-shadow:var(--glow);
-      background:#020617;
-      aspect-ratio: 16 / 9;
     }
-    #gate4-canvas{
-      width:100%;
-      height:100%;
+    .wall-block-inner{
+      border-radius:20px;
+      border:1px solid rgba(15,23,42,.9);
+      min-height:200px;
+      display:grid;
+      place-items:center;
+      padding:18px;
+      text-align:center;
+      background:radial-gradient(circle at top,#020617,#000);
+    }
+    .wall-label{
+      font-size:11px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:#a5b4fc;
+      margin-bottom:8px;
+    }
+    .wall-line{
+      font-size:13px;
+      color:#e5e7eb;
+    }
+    .wall-line span{
       display:block;
-    }
-    .gate4-note{
-      margin:10px 0 0;
       font-size:11px;
       color:#9ca3af;
+      white-space:pre-wrap;
+      margin-top:6px;
     }
 
-    footer{
-      border-top:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(to top,rgba(255,255,255,.02),rgba(255,255,255,0));
+    .contact-section{
+      border-top:1px solid rgba(15,23,42,.9);
     }
-    .vision{
-      max-width:var(--max);
-      margin:0 auto;
+    .contact__inner{
+      display:grid;
+      grid-template-columns:2fr 3fr;
+      gap:clamp(18px,3vw,32px);
+      align-items:flex-start;
     }
-    .vision h2{
-      font-size:18px;
+    .contact__inner h2{
       margin:0 0 8px;
+      font-size:clamp(20px,3vw,26px);
       letter-spacing:.12em;
       text-transform:uppercase;
     }
-    .vision p{
-      margin:0;
+    .contact__inner p{
+      margin:0 0 8px;
       font-size:14px;
       color:#cbd5e1;
     }
-    .footbar{
-      margin-top:clamp(16px,2.4vw,24px);
+    .contact-note{
+      font-size:12px;
+      color:#9ca3af;
+    }
+    .contact-links{
       display:flex;
-      gap:var(--gap);
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      color:#94a3b8;
+      flex-direction:column;
+      gap:4px;
+      margin-top:6px;
+      font-size:13px;
+    }
+    .contact-links a{
+      color:#a5b4fc;
+      text-decoration:none;
+    }
+    .contact-links a:hover{
+      color:#e5e7eb;
+      text-decoration:underline;
+    }
+
+    .contact-meta{
+      font-size:12px;
+      color:#9ca3af;
+      margin-top:12px;
+    }
+
+    .contact-right{
+      border-radius:24px;
+      padding:16px 16px 18px;
+      border:1px solid rgba(148,163,184,.7);
+      background:radial-gradient(circle at top,#020617,#000);
+      box-shadow:var(--glow);
+      font-size:13px;
+      color:#cbd5e1;
+    }
+    .contact-right h3{
+      margin:0 0 6px;
       font-size:14px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .contact-right p{
+      margin:0 0 6px;
     }
 
     @media (max-width:900px){
-      .cards{grid-template-columns:1fr}
-      .engine-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-      .contact-layout{
+      .engine__inner,
+      .gate1-layout,
+      .gate4-rows,
+      .contact__inner{
         grid-template-columns:1fr;
       }
-      .gate3-grid{
-        grid-template-columns:1fr;
+      .engine-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+      .gate2-grid,
+      .evidence-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
       }
     }
+
     @media (max-width:640px){
-      header{flex-direction:column;align-items:flex-start}
-      .links{justify-content:flex-start}
-      .engine-grid{grid-template-columns:1fr;}
+      .cards{
+        grid-template-columns:1fr;
+      }
+      .engine-grid{
+        grid-template-columns:1fr;
+      }
+      .gate2-grid,
+      .evidence-grid{
+        grid-template-columns:1fr;
+      }
     }
   </style>
-
-  <!-- model-viewer library for Gate 1 -->
+  
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <!-- Three.js for Gate 4 shader wall -->
-  <script src="https://unpkg.com/three@0.160.0/build/three.min.js"></script>
 </head>
 <body>
-  <header>
-    <a class="brand" href="#home" aria-label="Moko See, Moko Do home">
-      <span class="brand__mark" aria-hidden="true"></span>
-      <span class="brand__name">Moko See Moko Do</span>
-    </a>
-    <nav class="links" aria-label="Primary">
-      <a href="#about">About / Engine</a>
-      <a href="#evidence">Evidence</a>
-      <a href="#gate4">Breath Wall</a>
-      <a href="#contact">Contact</a>
-    </nav>
-  </header>
-
-  <!-- PARE banner -->
-  <div class="pare-banner" aria-label="Pare lintel">
-    <img src="assets/pare.svg" alt="" onerror="this.style.display='none'">
-    <div class="pare-fallback" aria-hidden="true"></div>
-  </div>
-
-  <!-- HERO video with karakia blink -->
-  <section class="hero" id="home">
-    <div class="hero__wrap">
-      <div id="blink" role="img" aria-label="Karakia">
-        <img src="assets/karakia_blink_poster.png" alt="">
+  <div class="page-shell">
+    <header>
+      <div class="header-inner">
+        <div class="brand">
+          <!-- use pare.svg as the small logo mark -->
+          <img src="assets/pare.svg" alt="" class="logo-mark">
+          <div class="logo-text">Moko See Moko Do</div>
+        </div>
+        <nav aria-label="Primary navigation">
+          <a href="#intro" class="nav-link">Intro</a>
+          <a href="#gate1-section" class="nav-link">Gate 1</a>
+          <a href="#gate2" class="nav-link">Gate 2</a>
+          <a href="#evidence" class="nav-link">Gate 3</a>
+          <a href="#gate4" class="nav-link">Gate 4</a>
+          <a href="#engine" class="nav-link">Engine</a>
+          <a href="#contact" class="nav-link">Kōrero</a>
+        </nav>
       </div>
-      <video id="hero"
-             src="assets/MSMD_intro_loop_v1_web.mp4"
-             autoplay muted loop playsinline preload="auto"
-             poster="assets/karakia_blink_poster.png"
-             aria-label="MSMD / Ngā Wai o Rua intro loop"></video>
-      <div class="vignette" aria-hidden="true"></div>
-    </div>
-  </section>
+    </header>
 
-  <main>
-    <!-- Intro -->
-    <section class="intro" aria-labelledby="intro-heading">
+    <!-- PARE banner -->
+    <div class="pare-banner">
+      <div class="pare-banner-inner">
+        <!-- full pare at the top -->
+        <img src="assets/pare.svg" alt="Pare lintel of Moko See Moko Do — entry threshold">
+      </div>
+    </div>
+
+    <!-- Hero loop -->
+    <section class="hero" aria-label="Proof of Breath — live wall teaser">
+      <div class="hero-inner">
+        <video id="hero"
+               src="assets/MSMD_intro_loop_v1_web.mp4"
+               autoplay
+               muted
+               loop
+               playsinline
+               preload="metadata"
+               poster="assets/karakia_blink_poster.png"
+               aria-label="MSMD / Ngā Wai o Rua intro loop"></video>
+      </div>
+    </section>
+
+    <div class="band-divider" aria-hidden="true"></div>
+
+    <!-- Intro / Yoke -->
+    <section class="intro wf-section" id="intro" aria-labelledby="intro-heading">
       <div class="intro__inner">
         <h1 id="intro-heading">Proof of Breath</h1>
+
         <p class="subtitle">
-          A living whare in code and carving — doing &gt; talking.
+          The world has forgotten how to feel before it acts.<br>
+          MSMD / Ngā Wai o Rua restores that balance — turning intuition into evidence,<br>
+          pattern into breath, and breath into law.
+        </p>
+
+        <p class="subtitle">
+          A living whare in code and carving — doing &gt; talking.<br>
           Watch the wall breathe, follow the ledger, and see the chips turn into pattern.
         </p>
 
-        <div class="yt-links">
-          <a href="https://www.youtube.com/watch?v=VRCOLcx-ZZk" target="_blank" rel="noopener">Hara Mai te Toki</a> ·
-          <a href="https://youtube.com/shorts/PfaqI8ED13I" target="_blank" rel="noopener">Ngāo Pae — Teaser (Short)</a> ·
-          <a href="https://www.youtube.com/channel/UCFwfkTNkuu0EBbUAlhhNBwA/" target="_blank" rel="noopener">MSMD Channel</a>
-        </div>
+        <p class="subtitle">
+          This site is a living whare — each gate opens only when you’re ready to see.
+        </p>
+
+        <p class="yoke-line">
+          One engine, many doors.
+        </p>
+
+        <p class="key-line">
+          Start at Gate 1 or follow the engine below — no ads, no noise, just kaupapa in motion.
+        </p>
+
+        <p class="subtitle">
+          For now, the roadmap and studio are in build mode. The gates below are live experiments — like standing in the workshop while the tools are still warm.
+        </p>
+
+        <p class="subtitle">
+          <strong>Best viewed:</strong> headphones on, lights down, full attention. This is not content; it is practice.
+        </p>
+
+        <p class="subtitle">
+		  <a href="https://www.youtube.com/channel/UCFwfkTNkuu0EBbUAlhhNBwA"
+			 target="_blank" rel="noopener">
+			MSMD Channel
+		  </a>
+		</p>
+
       </div>
     </section>
 
     <!-- Quick highlights strip -->
-    <section class="highlights" aria-label="Highlights">
+    <section class="highlights wf-section" aria-label="Highlights">
       <div class="highlights__inner">
         <div class="cards">
           <article class="card">
@@ -650,629 +788,263 @@
       </div>
     </section>
 
+    <div class="band-divider" aria-hidden="true"></div>
+
     <!-- Gate 1 — Hei Rata Digital Taonga -->
-    <section id="gate1-section" aria-labelledby="gate1-heading">
+    <section id="gate1-section" class="wf-section" aria-labelledby="gate1-heading">
       <div id="gate1-section-inner">
-        <h2 id="gate1-heading">Gate 1 — Hei Rata Digital Taonga</h2>
-        <p>
-          This hei rata was carved in living rata and then scanned with the Kiri engine.
-          The 3D twin here is a digital taonga — proof that carving law can travel through
-          light and code without losing its mana. Rotate, zoom, and sit with the grain.
-        </p>
-
-        <button type="button" class="gate2-button" data-target="#gate2-section">
-          Enter Gate 2 — Inside the Grain
-        </button>
-
-        <div class="model-shell">
-          <model-viewer
-            id="gate1-viewer"
-            class="hei-rata-viewer"
-            src="assets/hei_rata_gate1_v1.glb"
-            alt="Hei Rata digital taonga"
-            camera-controls
-            auto-rotate
-            auto-rotate-delay="4000"
-            interaction-prompt="auto"
-            shadow-intensity="0.9"
-            exposure="1.1"
-            camera-orbit="-45deg 25deg 2.5m"
-            field-of-view="35deg"
-            ar
-            ar-modes="webxr scene-viewer quick-look"
-            ar-placement="floor"
-            ar-scale="fixed">
-
-            <button slot="ar-button" class="ar-button">
-              <span class="ar-button-icon" aria-hidden="true"></span>
-              <span>View hei rata in your space</span>
-            </button>
-          </model-viewer>
+        <div class="section-heading">
+          <h2 id="gate1-heading">Gate 1 — Hei Rata Digital Taonga</h2>
+          <p>Meet the first digital taonga: a 3D Hei Rata carved in timber, scanned, and stood up inside your browser.</p>
         </div>
-        <p class="ar-note">
-          On a phone, use “View hei rata in your space” to place the taonga on the floor or a table and walk around it.
-        </p>
+
+        <div class="gate1-layout">
+          <div class="gate1-copy">
+            <p>
+              <strong>Hei Rata</strong> stands as the first visible pou of this kaupapa — a physical carving brought into light as a
+              <em>digital taonga</em>. It carries the pattern of Te Rua o te Rata: a trumpet of hardwood, born from g-code and hand-finishing.
+            </p>
+            <p>
+              In this gate, the taonga is not locked in a glass case. You can spin it, stand it up in your lounge, or sit with it in AR.
+              It is both record and relationship — the stone memory of one day in the shed.
+            </p>
+            <p>
+              <strong>Law behind the gate:</strong> nothing exists in this engine until it has been done by hand once. The 3D model is a witness, not a replacement.
+            </p>
+            <p class="gate1-meta">
+              <strong>Best use:</strong> load on your phone, tap the AR icon, and stand with the taonga in your own whare.
+            </p>
+          </div>
+
+          <div class="gate1-model">
+            <!-- point to actual GLB file in your assets -->
+            <model-viewer src="assets/hei_rata_gate1_v1.glb"
+              alt="Hei Rata digital taonga — 3D carved trumpet"
+              camera-controls
+              auto-rotate
+              touch-action="pan-y"
+              ar
+              ar-modes="scene-viewer quick-look webxr"
+              shadow-intensity="0.5"
+              environment-image="neutral"
+              exposure="1.1">
+			</model-viewer>
+
+            <p class="ar-note">
+              Tip: open in AR on your device to stand the hei rata up in your own whare.
+            </p>
+          </div>
+        </div>
       </div>
     </section>
+
+    <div class="band-divider" aria-hidden="true"></div>
 
     <!-- Gate 2 — Inside the Grain -->
-    <section id="gate2-section" aria-labelledby="gate2-heading" class="gate2">
+    <section id="gate2" class="gate2 wf-section" aria-labelledby="gate2-heading">
       <div class="gate2__inner">
-        <h2 id="gate2-heading">Gate 2 — Inside the Grain</h2>
+        <div class="gate2__heading">
+          <h2 id="gate2-heading">Gate 2 — Inside the Grain</h2>
+        </div>
         <p class="gate2__intro">
-          Stepping through the hei rata brings you into the grain itself — the law behind the surface.
-          This gate holds the memory logic of the taonga: kape rua, chip and Tiki, strike and echo.
+          Stepping through Gate 2 takes you inside the timber: into height maps, CNC passes, and the IO laws that keep the chips clean.
         </p>
-
-        <div class="cards gate2-grid">
-          <article class="card gate2-card">
-            <h3>Kape Rua — The Footprint Law</h3>
-            <p>
-              Every hollow in the scan is kape rua — motion leaving memory.
-              The concave pockets in the hei rata are where the tool’s force became story.
-            </p>
+        <div class="gate2-grid">
+          <article class="gate2-card">
+            <h3>Height Maps</h3>
+            <p>Relief maps turned into carving recipes — each pixel a planned strike.</p>
           </article>
-
-          <article class="card gate2-card">
-            <h3>Chip → Tiki</h3>
-            <p>
-              Each chisel strike became a chip; each chip became a Tiki once logged.
-              The digital scan is the macro-Tiki — a single record holding all those chips at once.
-            </p>
+          <article class="gate2-card">
+            <h3>IO Law</h3>
+            <p>Stop-cuts + 45° shear; one change per pass. Physics in wood, not theory.</p>
           </article>
-
-          <article class="card gate2-card">
-            <h3>Light as Whakapapa</h3>
-            <p>
-              In this gate the light is the storyteller.
-              The breathing exposure marks time passing over the surface — Proof-of-Breath made visible.
-            </p>
+          <article class="gate2-card">
+            <h3>Hand Pass</h3>
+            <p>Every CNC rough-out finishes under hand — no cut leaves without a human witness.</p>
           </article>
         </div>
       </div>
     </section>
+
+    <div class="band-divider" aria-hidden="true"></div>
 
     <!-- Gate 3 — Evidence Realm -->
-    <section id="evidence" aria-labelledby="gate3-heading" class="gate3">
+    <section id="evidence" class="gate3 wf-section" aria-labelledby="gate3-heading">
       <div class="gate3__inner">
-        <h2 id="gate3-heading">Gate 3 — Evidence Realm (Whiro Ledger)</h2>
+        <div class="gate3__heading">
+          <h2 id="gate3-heading">Gate 3 — Evidence Realm</h2>
+        </div>
         <p class="gate3__intro">
-          This gate holds the receipts behind the kaupapa. Every action leaves a chip, every chip becomes a Tiki,
-          and together they form the living landscape of the whare.
+          This gate holds the receipts behind the kaupapa. Every action leaves a chip, every chip becomes
+          a Tiki, and together they form the living landscape of the whare.
+          <br><br>
+          <strong>Purpose:</strong> To prove that mahi is real only when recorded — evidence before edge.
         </p>
 
-        <div class="cards gate3-grid">
-          <article class="card gate3-card">
-            <h3>Daily Chips</h3>
-            <p>
-              Small, honest entries captured in Whiro — one box at a time.
-              Each chip proves that the mahi happened, in a real body, in real time.
-            </p>
+        <div class="evidence-grid">
+          <article class="evidence-card">
+            <h3>Whiro Ledger</h3>
+            <p>Daily chips logged as JSON — bare fact, repercussion, remedy, and learning.</p>
+            <p class="metric">Metric: chips / hour, time-to-remedy, Ruaumoko felt shift.</p>
           </article>
-
-          <article class="card gate3-card">
-            <h3>Landscape of Mahi</h3>
-            <p>
-              Forest floor, hills, maunga, ridgelines, lightning.
-              Chips stack into terrain so you can see where the kaupapa has truly walked.
-            </p>
+          <article class="evidence-card">
+            <h3>Rongo Store</h3>
+            <p>Finished artefacts, renders, and photos stacked into Crown folders with manifests.</p>
+            <p class="metric">Law: no Crown without three seals — hand, machine, and natural tohu.</p>
           </article>
-
-          <article class="card gate3-card">
-            <h3>Crown Receipts</h3>
-            <p>
-              When enough chips align, they seal into a Crown — fixed versions, hashed folders,
-              and documents that protect the pattern for the mokopuna.
-            </p>
+          <article class="evidence-card">
+            <h3>Evidence Strip</h3>
+            <p>A visual ribbon of the kaupapa — chips lined up as photos, clips, and notes so the story can be read at a glance.</p>
+            <p class="metric">Future: live wall of receipts that updates as you move through the gates.</p>
           </article>
-        </div>
-
-        <div id="gate3-chip" class="gate3-chip" aria-live="polite">
-          Loading a sample chip from the Whiro ledger&hellip;
         </div>
       </div>
     </section>
 
-    <!-- Gate 4 — The Breath Wall (Shader) -->
-    <section id="gate4" aria-labelledby="gate4-heading" class="gate4">
+    <div class="band-divider" aria-hidden="true"></div>
+
+    <!-- Gate 4 — Breath Wall -->
+    <section id="gate4" class="gate4 wf-section" aria-labelledby="gate4-heading">
       <div class="gate4__inner">
-        <h2 id="gate4-heading">Gate 4 — Te Pūkāea o te Manawa (The Breath Wall)</h2>
-        <p class="gate4__intro">
-          A live breathing plane driven by law, not footage. The centre rises and falls like a lung,
-          while the edges stay anchored — a wall that remembers its frame even as it moves.
+        <h2 id="gate4-heading">Gate 4 — Breath Wall</h2>
+        <p>
+          Gate 4 is the breathing wall itself — the “Proof of Breath” loop that shows code holding mauri.
+          This is where light, time, and audio move as one lung.
         </p>
 
-        <div class="gate4-canvas-wrap">
-          <canvas id="gate4-canvas"></canvas>
-        </div>
-        <p class="gate4-note">
-          Shader Scope 1 — time-driven breath with edge anchor + firefly particles.
-          Later, the depth of the breath can follow real Whiro chips and Ruaumoko Index.
-        </p>
-      </div>
-    </section>
-
-    <!-- AEIOU ENGINE -->
-    <section class="engine" id="about" aria-labelledby="engine-heading">
-      <div class="engine__inner">
-        <div class="section-heading">
-          <h2 id="engine-heading">The engine behind the whare</h2>
-          <p>AEIOU — one breath, five roles.</p>
-        </div>
-
-        <div class="cards engine-grid">
-          <article class="card engine-card">
-            <h3>A</h3>
-            <p class="engine-tag">WHY · Identity · Whakapapa</p>
+        <div class="gate4-rows">
+          <div class="gate4-copy">
             <p>
-              To make spirit visible through action.
-              Every movement is a cut; every cut is a promise to the mokopuna watching.
-            </p>
-          </article>
-
-          <article class="card engine-card">
-            <h3>E</h3>
-            <p class="engine-tag">HOW · Kaupapa Engine</p>
-            <p>
-              Ruaumoko → Manaia → Tāne → Rongo.
-              Feel first, choose through hands, act in rhythm, store as Tiki.
-            </p>
-          </article>
-
-          <article class="card engine-card">
-            <h3>I</h3>
-            <p class="engine-tag">WHAT · Artefacts · Proof</p>
-            <p>
-              Pou, pare, waharoa, LED walls, geometry-node renders —
-              each artefact is a receipt of balance between body, tool, and time.
-            </p>
-          </article>
-
-          <article class="card engine-card">
-            <h3>O</h3>
-            <p class="engine-tag">WHO · People · Places</p>
-            <p>
-              Hokianga-nui-a-Kupe, Te Piiti Marae, the carvers, coders and mokopuna
-              who stand inside this whare of work.
-            </p>
-          </article>
-
-          <article class="card engine-card">
-            <h3>U</h3>
-            <p class="engine-tag">WHEN · Rhythm · Cycles</p>
-            <p>
-              Maramataka, Whiro ledger, crowns and chips.
-              Time boxed by Māui so each cycle closes with a measurable Tiki — a complete breath.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="contact-section" id="contact" aria-labelledby="contact-heading">
-      <div class="contact__inner">
-        <div class="section-heading">
-          <h2 id="contact-heading">Korero / Contact</h2>
-          <p>For kaupapa-aligned collaboration only.</p>
-        </div>
-
-        <div class="contact-layout">
-          <div>
-            <p>
-              If you feel the engine speaking to your own mahi — education, health, research,
-              technology, or whenua-based projects — you can reach out directly.
+              <strong>What you’re seeing:</strong> a single digital plane bulging and glowing like a chest inhale. Edges are pinned so that the wall feels anchored — no floating panels, just a living surface.
             </p>
             <p>
-              This is not a shop. It is a whare. Entry is through kaupapa, not consumption.
+              The render you saw in the hero above is a sealed Tiki from this gate. Behind it sits a JSON ledger, a Crown manifest, and a trail of Whiro chips from every failed test.
+            </p>
+            <p>
+              <strong>Why it matters:</strong> if a wall can breathe on time with a karakia, then code can be taught to behave like a taonga, not a billboard.
             </p>
           </div>
-          <div>
-            <p><strong>Email:</strong> <span>kiaora@mokoseemokodo.com</span></p>
-            <p><strong>Location:</strong> Hokianga-nui-a-Kupe, Aotearoa</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
 
-  <footer>
-    <section class="vision" aria-labelledby="vision-heading">
-      <h2 id="vision-heading">Vision</h2>
-      <p>
-        Anchor it so it can travel.
-        A clean line from whare to web: carve, capture, and show the breath in motion
-        so the kaupapa stands without us and for us.
-      </p>
-      <div class="footbar">
-        <span>© <span id="y"></span> MSMD</span>
-        <nav class="links" aria-label="Secondary">
-          <a href="#about">About</a>
-          <a href="#evidence">Evidence Strip</a>
-          <a href="#gate4">Breath Wall</a>
-          <a href="#contact">Contact</a>
-        </nav>
-      </div>
-    </section>
-  </footer>
-
-  <script>
-    const v = document.getElementById('hero');
-    const blink = document.getElementById('blink');
-
-    function tryPlay(){ v.play().catch(()=>{}); }
-    v.addEventListener('loadeddata', tryPlay, { once:true });
-
-    const holdMs = 600; // how long the karakia sits before fade (ms)
-
-    function hideBlink(){
-      blink.classList.add('fade');
-      setTimeout(()=> blink.remove(), 350);
-      tryPlay();
-    }
-
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      hideBlink();
-    } else {
-      setTimeout(hideBlink, holdMs);
-    }
-
-    blink.addEventListener('click', hideBlink);
-
-    document.getElementById('y').textContent = new Date().getFullYear();
-
-    // --- Gate 1 breathing light (Proof-of-Breath v1.2) ---
-    (function startGate1Breath() {
-      const viewer = document.getElementById('gate1-viewer');
-      if (!viewer) return;
-
-      const baseExposure  = 1.1;
-      const amplitude     = 0.35;
-      const periodSeconds = 10;
-
-      let startTime = null;
-
-      function frame(timestamp) {
-        if (!startTime) startTime = timestamp;
-        const elapsed = (timestamp - startTime) / 1000; // seconds
-        const phase   = (elapsed / periodSeconds) * 2 * Math.PI;
-        const offset  = Math.sin(phase);
-        const exposure = baseExposure + amplitude * offset;
-        viewer.setAttribute('exposure', exposure.toFixed(3));
-        requestAnimationFrame(frame);
-      }
-
-      requestAnimationFrame(frame);
-    })();
-    // --- End Gate 1 breathing light ---
-
-    // --- Gate 2 navigation button (scroll to Inside the Grain) ---
-	document.querySelectorAll('.gate2-button').forEach(btn => {
-	  btn.addEventListener('click', () => {
-		const target = btn.getAttribute('data-target');
-		const el = document.querySelector(target);
-		if (el) {
-		  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-		}
-		if (window.msmdSetGateMode) {
-		  window.msmdSetGateMode(2); // Gate 2 colours
-		}
-	  });
-	});
-	// --- End Gate 2 navigation ---
-	// --- Top nav → gate colour mapping ---
-	document.querySelectorAll('header .links a, footer .links a').forEach(link => {
-	  link.addEventListener('click', () => {
-		const href = link.getAttribute('href') || '';
-		if (!window.msmdSetGateMode) return;
-
-		if (href === '#evidence') {
-		  window.msmdSetGateMode(3); // Gate 3 — Evidence Realm
-		} else if (href === '#gate4') {
-		  window.msmdSetGateMode(4); // Gate 4 — Breath Wall
-		} else if (href === '#about') {
-		  window.msmdSetGateMode(1); // Treat About/Engine as Gate 1 identity layer
-		}
-		// #contact leaves the current colour as-is
-	  });
-	});
-	// --- End nav → gate colour mapping ---
-
-
-    // --- Gate 3 live chip render ---
-    (function loadGate3Chip() {
-      const target = document.getElementById('gate3-chip');
-      if (!target) return;
-
-      fetch('JSON/gate3_sample_chip.json')
-        .then(res => {
-          if (!res.ok) throw new Error('Chip fetch failed');
-          return res.json();
-        })
-        .then(chip => {
-          const id    = chip.id || 'UNKNOWN_ID';
-          const title = chip.title || 'Untitled chip';
-          const date  = chip.date || 'No date';
-
-          const artefactName = chip.artefact && chip.artefact.name
-            ? chip.artefact.name
-            : 'Unnamed artefact';
-
-          const layer = chip.landscape && chip.landscape.layer
-            ? chip.landscape.layer
-            : 'unknown layer';
-
-          const height = chip.landscape && chip.landscape.height != null
-            ? chip.landscape.height
-            : '?';
-
-          const summary = chip.action && chip.action.summary
-            ? chip.action.summary
-            : 'No summary available.';
-
-          target.innerHTML = `
-            <div class="gate3-chip__id">${id} · ${date}</div>
-            <div class="gate3-chip__title">${title}</div>
-            <div class="gate3-chip__meta">
-              Artefact: ${artefactName} · Landscape: ${layer} (height ${height})
+          <div class="wall-block">
+            <div class="wall-block-inner">
+              <div class="wall-label">Wall that Breathes — Status</div>
+              <div class="wall-line">
+                Live loop running in hero.
+                <span>Next step: shader gate that responds to ledger data — wall brightens or dims in real time as chips are logged.</span>
+              </div>
             </div>
-            <p class="gate3-chip__summary">${summary}</p>
-          `;
-        })
-        .catch(() => {
-          target.textContent = 'Chip unavailable — ledger is closed to the public right now.';
-        });
-    })();
-    // --- End Gate 3 live chip render ---
+          </div>
+        </div>
+      </div>
+    </section>
 
-    // --- Gate 4 shader wall (Scope 1: breath, edge anchor, particles, colour wheel, manu-follow) ---
-	(function initGate4Shader(){
-	  const canvas = document.getElementById('gate4-canvas');
-	  if (!canvas || !window.THREE) return;
+    <div class="band-divider" aria-hidden="true"></div>
 
-	  const renderer = new THREE.WebGLRenderer({
-		canvas: canvas,
-		antialias: true
-	  });
-	  renderer.setPixelRatio(window.devicePixelRatio || 1);
+    <!-- Engine / AEIOU -->
+    <section class="engine wf-section" id="engine" aria-labelledby="engine-heading">
+      <div class="engine__inner">
+        <aside class="engine-aside">
+          <h3 id="engine-heading">The Engine — AEIOU Compass</h3>
+          <p>
+            Underneath the gates sits the engine: a five-vowel compass (A–E–I–O–U) that maps every act of carving, coding, and reflection.
+          </p>
+          <p>
+            <strong>A — WHY:</strong> To make spirit visible through action.<br>
+            <strong>E — HOW:</strong> By carving law into motion — every act a cut, every cut a proof.<br>
+            <strong>I — WHAT:</strong> Because it restores balance — turning knowledge into evidence, and people into living whakapapa.<br>
+            <strong>O — WHO:</strong> All who create with care — mokopuna, makers, and the land they stand on.<br>
+            <strong>U — WHEN:</strong> Now — while the world forgets how to feel before it acts.
+          </p>
+          <p class="engine-aeio-u">
+            The engine is already running — this site, the crowns, the ledgers, and the wall are all one breathing system.
+          </p>
+        </aside>
 
-	  const scene = new THREE.Scene();
-	  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
-	  camera.position.z = 1;
+        <div class="engine-grid" aria-label="AEIOU engine map">
+          <article class="engine-card">
+            <div class="engine-tag">A — WHY</div>
+            <h3>A</h3>
+            <p>Foundation &amp; stance. Mind = stone; every cut begins in puku, not in screen.</p>
+          </article>
+          <article class="engine-card">
+            <div class="engine-tag">E — HOW</div>
+            <h3>E</h3>
+            <p>Connection &amp; breath. Hands, tools, and chords that bridge body, code, and whenua.</p>
+          </article>
+          <article class="engine-card">
+            <div class="engine-tag">I — WHAT</div>
+            <h3>I</h3>
+            <p>Decision &amp; cut. One change per pass, Māui snaring the sun so days are long enough to finish.</p>
+          </article>
+          <article class="engine-card">
+            <div class="engine-tag">O — WHO</div>
+            <h3>O</h3>
+            <p>Containment &amp; reflection. Tangaroa’s mirror and Rongo’s storehouse — where chips become Tiki.</p>
+          </article>
+          <article class="engine-card">
+            <div class="engine-tag">U — WHEN</div>
+            <h3>U</h3>
+            <p>Renewal &amp; return. Each cycle ends with a Tiki and begins again with Ruaumoko’s tremor.</p>
+          </article>
+        </div>
+      </div>
+    </section>
 
-	  // --- Base wall geometry + shader ---
-	  const wallGeometry = new THREE.PlaneGeometry(2, 2);
+    <div class="band-divider" aria-hidden="true"></div>
 
-	  const wallVertexShader = `
-		varying vec2 vUv;
-		void main() {
-		  vUv = uv;
-		  gl_Position = vec4(position, 1.0);
-		}
-	  `;
+    <!-- Contact / Kōrero -->
+    <section class="contact-section wf-section" id="contact" aria-labelledby="contact-heading">
+      <div class="contact__inner">
+        <div>
+          <h2 id="contact-heading">Kōrero</h2>
+          <p>
+            This kaupapa is still in workshop mode — tools on the bench, chips on the floor, wall breathing in the corner.
+          </p>
+          <p>
+            If you feel a pull to work with this engine — as funder, researcher, carver, coder, or student — you’re welcome to reach out.
+          </p>
+          <p class="contact-note">
+            No newsletters, no funnels. Just kōrero when there is real mahi to do.
+          </p>
 
-	  const wallFragmentShader = `
-		precision highp float;
-		varying vec2 vUv;
-		uniform float u_time;
-		uniform vec3 u_glowColor;
-
-		void main() {
-		  vec2 uv = vUv;
-		  vec2 centred = uv - 0.5;
-		  float dist = length(centred);
-
-		  float speed = 0.6;
-		  float breath = 0.5 + 0.5 * sin(u_time * speed);
-
-		  float edge = smoothstep(0.35, 0.8, dist);
-		  float bulge = breath * (1.0 - edge);
-		  float vignette = 1.0 - smoothstep(0.0, 0.9, dist);
-
-		  vec3 base = vec3(0.01, 0.03, 0.06);
-		  vec3 glow = u_glowColor;
-
-		  float intensity = bulge * vignette;
-		  vec3 color = base + glow * intensity;
-
-		  gl_FragColor = vec4(color, 1.0);
-		}
-	  `;
-
-	  const wallMaterial = new THREE.ShaderMaterial({
-		uniforms: {
-		  u_time:      { value: 0.0 },
-		  u_glowColor: { value: new THREE.Color(0.20, 0.65, 1.00) } // default cyan
-		},
-		vertexShader: wallVertexShader,
-		fragmentShader: wallFragmentShader
-	  });
-
-	  const wallMesh = new THREE.Mesh(wallGeometry, wallMaterial);
-	  scene.add(wallMesh);
-
-	  // --- Firefly particle layer (Scope 1.A) ---
-
-	  const particleCount = 4000;
-	  const positions = new Float32Array(particleCount * 3);
-	  const offsets   = new Float32Array(particleCount * 3);
-
-	  for (let i = 0; i < particleCount; i++) {
-		const i3 = i * 3;
-
-		const r = Math.random() * 1.2;
-		const a = Math.random() * Math.PI * 2.0;
-
-		const x = Math.cos(a) * r;
-		const y = Math.sin(a) * r;
-		const z = (Math.random() - 0.5) * 0.2;
-
-		positions[i3 + 0] = x;
-		positions[i3 + 1] = y;
-		positions[i3 + 2] = z;
-
-		offsets[i3 + 0] = Math.random() * 10.0;
-		offsets[i3 + 1] = Math.random() * 10.0;
-		offsets[i3 + 2] = Math.random() * 10.0;
-	  }
-
-	  const particleGeometry = new THREE.BufferGeometry();
-	  particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-	  particleGeometry.setAttribute('aOffset',  new THREE.BufferAttribute(offsets, 3));
-
-	  const particleVertexShader = `
-		uniform float u_time;
-		uniform float u_breathIntensity;
-		uniform vec2  u_cursor;
-		uniform float u_cursorInfluence;
-
-		attribute vec3 aOffset;
-
-		varying float vAlpha;
-
-		void main() {
-		  vec3 pos = position;
-
-		  float t = u_time * 0.2 + aOffset.x;
-
-		  // gentle orbital drift
-		  pos.x += 0.1 * sin(t + aOffset.y);
-		  pos.y += 0.1 * cos(t + aOffset.z);
-
-		  float breath = 0.5 + 0.5 * sin(u_time * 0.8 + aOffset.x);
-		  pos.z += (breath - 0.5) * 0.2 * u_breathIntensity;
-
-		  // --- manu-follow: slight attraction toward cursor ---
-		  // u_cursor is in [-1,1] space, same as plane
-		  vec2 toCursor = u_cursor - pos.xy;
-		  // soften pull with distance + breath
-		  float dist = length(toCursor);
-		  float pull = u_cursorInfluence * breath * smoothstep(1.2, 0.0, dist);
-		  pos.xy += toCursor * pull;
-
-		  vAlpha = 0.2 + 0.8 * breath;
-
-		  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-		  gl_PointSize = 2.5 + 2.0 * breath;
-		}
-	  `;
-
-	  const particleFragmentShader = `
-		precision highp float;
-		varying float vAlpha;
-		uniform vec3 u_particleColor;
-
-		void main() {
-		  vec2 coord = gl_PointCoord - 0.5;
-		  float dist = length(coord);
-
-		  float mask = smoothstep(0.5, 0.0, dist);
-
-		  vec3 color = u_particleColor;
-		  float alpha = vAlpha * mask;
-
-		  gl_FragColor = vec4(color, alpha);
-		}
-	  `;
-
-	  const particleMaterial = new THREE.ShaderMaterial({
-		transparent: true,
-		depthWrite: false,
-		blending: THREE.AdditiveBlending,
-		uniforms: {
-		  u_time:            { value: 0.0 },
-		  u_breathIntensity: { value: 1.0 },
-		  u_particleColor:   { value: new THREE.Color(1.0, 0.7, 0.4) },
-		  u_cursor:          { value: new THREE.Vector2(0.0, 0.0) },
-		  u_cursorInfluence: { value: 0.35 } // how strongly manu follow you
-		},
-		vertexShader: particleVertexShader,
-		fragmentShader: particleFragmentShader
-	  });
-
-	  const particlePoints = new THREE.Points(particleGeometry, particleMaterial);
-	  scene.add(particlePoints);
-
-	  // --- Gate colour wheel mapping ---
-
-	  const gateColors = {
-		1: {
-		  glow:      new THREE.Color(1.0, 0.80, 0.45),
-		  particles: new THREE.Color(1.0, 0.85, 0.55)
-		},
-		2: {
-		  glow:      new THREE.Color(0.55, 0.95, 0.65),
-		  particles: new THREE.Color(0.70, 1.00, 0.70)
-		},
-		3: {
-		  glow:      new THREE.Color(0.30, 0.70, 1.00),
-		  particles: new THREE.Color(0.60, 0.80, 1.00)
-		},
-		4: {
-		  glow:      new THREE.Color(1.00, 0.55, 0.35),
-		  particles: new THREE.Color(1.00, 0.70, 0.40)
-		}
-	  };
-
-	  function setGateMode(gate){
-		const cfg = gateColors[gate] || gateColors[4];
-		wallMaterial.uniforms.u_glowColor.value.copy(cfg.glow);
-		particleMaterial.uniforms.u_particleColor.value.copy(cfg.particles);
-	  }
-
-	  window.msmdSetGateMode = setGateMode;
-	  setGateMode(4); // default Gate 4
-
-	  // --- Pointer → u_cursor mapping (manu-follow) ---
-
-	  const cursor = particleMaterial.uniforms.u_cursor.value;
-
-	  function updateCursorFromEvent(ev){
-		const rect = canvas.getBoundingClientRect();
-		if (rect.width === 0 || rect.height === 0) return;
-
-		const x = ((ev.clientX - rect.left) / rect.width) * 2 - 1;
-		const y = -(((ev.clientY - rect.top) / rect.height) * 2 - 1);
-
-		cursor.set(x, y);
-	  }
-
-	  canvas.addEventListener('pointermove', updateCursorFromEvent);
-	  canvas.addEventListener('pointerdown', updateCursorFromEvent);
-
-	  canvas.addEventListener('pointerleave', () => {
-		cursor.set(0.0, 0.0); // return to centre when you leave
-	  });
-
-	  // --- Resize & animation loop ---
-
-	  function resizeRendererToDisplaySize() {
-		const width = canvas.clientWidth;
-		const height = canvas.clientHeight;
-		if (width === 0 || height === 0) return;
-		renderer.setSize(width, height, false);
-	  }
-
-	  function animate(timestamp){
-		const t = timestamp * 0.001;
-
-		wallMaterial.uniforms.u_time.value = t;
-		particleMaterial.uniforms.u_time.value = t;
-
-		resizeRendererToDisplaySize();
-		renderer.render(scene, camera);
-		requestAnimationFrame(animate);
-	  }
-
-	  requestAnimationFrame(animate);
-
-	  window.addEventListener('resize', () => {
-		resizeRendererToDisplaySize();
-	  });
-	})();
-	// --- End Gate 4 shader wall ---
+          <div class="contact-links">
+            <a href="mailto:o1ooo1@hotmail.com">Email — o1ooo1@hotmail.com</a>
+            <a href="https://www.youtube.com/channel/UCFwfkTNkuu0EBbUAlhhNBwA"
+			   target="_blank" rel="noopener">
+			  YouTube — MSMD Channel
+			</a>
 
 
-  </script>
+          </div>
+
+          <p class="contact-meta">
+            Based in Hokianga-nui-a-Kupe, Aotearoa. Off-grid power, on-grid kaupapa.
+          </p>
+        </div>
+
+        <aside class="contact-right" aria-label="Current focus">
+          <h3>Current Focus</h3>
+          <p>
+            • Proof-of-Breath Crown — sealing the breathing wall as a full Crown with hand, machine, and tohu receipts.<br>
+            • Daily Whiro chips — building the ledger body one small act at a time.<br>
+            • Soft-launch web gates — refining the path so visitors don’t get lost in theory.
+          </p>
+          <p>
+            Later phases will open studio slots, teaching cycles, and research partnerships. For now, the mahi is to keep the wall breathing clean.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <footer>
+      <div style="max-width:var(--max);margin:0 auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;">
+        <span>© <span id="year"></span> Moko See Moko Do — Ngā Wai o Rua</span>
+        <span>Built as a living whare, not a finished product.</span>
+      </div>
+      <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+      </script>
+    </footer>
+  </div>
 </body>
 </html>
