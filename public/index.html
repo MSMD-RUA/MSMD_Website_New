@@ -353,54 +353,88 @@
     #gate1-section{
       padding:clamp(20px,5vw,60px) var(--pad) clamp(20px,5vw,60px);
     }
-    #gate1-section-inner{
+    #gate1-section-inner,
+    #gate4-section-inner{
       max-width:var(--max);
       margin:0 auto;
     }
-    #gate1-section h2{
-      margin:0 0 8px;
-      font-size:clamp(20px,3vw,26px);
-      letter-spacing:.12em;
-      text-transform:uppercase;
-    }
-    #gate1-section p{
-      font-size:14px;
-      color:#cbd5e1;
-      max-width:70ch;
-    }
+
     .gate1-layout{
-      display:grid;
-      grid-template-columns:3fr 2fr;
-      gap:clamp(18px,3vw,32px);
-      margin-top:18px;
-      align-items:flex-start;
-    }
-    .gate1-copy{
-      font-size:14px;
-      color:#cbd5e1;
-      line-height:1.6;
-    }
-    .gate1-copy p{
-      margin:0 0 8px;
-    }
-    .gate1-copy strong{color:#e5e7eb}
-    .gate1-meta{
-      font-size:12px;
-      color:#9ca3af;
-      margin-top:6px;
-    }
+     /* stack everything like the hero: viewer on top, text under */
+     display:flex;
+     flex-direction:column;
+     align-items:center;
+     gap:clamp(18px,3vw,32px);
+     margin-top:18px;
+   }
+
+
+		.gate1-copy{
+	  font-size:14px;
+	  color:#cbd5e1;
+	  line-height:1.6;
+	  max-width:70ch;
+	  margin:24px auto 0;
+	  text-align:center;
+	}
+
+	.gate1-copy p{
+	  margin:0 0 8px;
+	}
+
+	.gate1-copy strong{
+	  color:#e5e7eb;
+	}
     .gate1-meta strong{
       color:#e5e7eb;
     }
 
-    .gate1-model{
-      margin:20px 0 0;
-      border-radius:28px;
-      padding:10px;
-      background:radial-gradient(circle at top left,#020617,#000);
-      border:1px solid rgba(148,163,184,.8);
-      box-shadow:var(--glow);
-    }
+		.gate1-model{
+	  border-radius:32px;
+	  overflow:hidden;
+	  background:radial-gradient(circle at top,#020617,#000);
+	  box-shadow:
+		0 0 0 1px rgba(15,23,42,.8),
+		0 0 80px rgba(103,187,255,.26),
+		0 0 180px rgba(30,64,175,.5);
+	  width:100%;
+	  max-width:var(--max);   /* same width cap as hero */
+	  margin:0 auto;
+	}
+	
+		.breath-wall-frame{
+	  width:100%;
+	  height:100%;
+	}
+
+	.breath-wall-canvas{
+	  display:block;
+	  width:100%;
+	  height:auto;
+	  max-height:min(60vh,680px);
+	  border:none;
+	}
+
+	.gate1-caption{
+	  margin:10px 2px 0;
+	  font-size:12px;
+	  color:#9ca3af;
+	}
+
+	.gate1-caption span{
+	  display:block;
+	  margin-top:4px;
+	  font-size:11px;
+	  color:#a5b4fc;
+	}
+
+	/* keep it stacked on small screens */
+	@media (max-width:900px){
+	  .gate1-layout{
+		grid-template-columns:1fr;
+	  }
+	}
+
     model-viewer{
       width:100%;
       min-height:260px;
@@ -409,6 +443,22 @@
       border:1px solid rgba(15,23,42,.9);
       overflow:hidden;
     }
+		.gate1-text p{
+	  font-size:14px;
+	  color:#cbd5e1;
+	  line-height:1.6;
+	  margin:0 0 8px;
+	}
+
+
+	.gate1-caption span{
+	  display:block;
+	  margin-top:4px;
+	  font-size:11px;
+	  color:#a5b4fc;
+	}
+
+
     .ar-note{
       margin:8px 0 0;
       font-size:12px;
@@ -543,34 +593,7 @@
     }
     .gate4-copy p{margin:0 0 8px}
     .gate4-copy strong{color:#e5e7eb}
-    .wall-block{
-      border-radius:26px;
-      padding:14px;
-      border:1px solid rgba(148,163,184,.8);
-      background:radial-gradient(circle at top,#020617,#000);
-      box-shadow:var(--glow);
-    }
-    .wall-block-inner{
-      border-radius:20px;
-      border:1px solid rgba(15,23,42,.9);
-      min-height:200px;
-      display:grid;
-      place-items:center;
-      padding:18px;
-      text-align:center;
-      background:radial-gradient(circle at top,#020617,#000);
-    }
-    .wall-label{
-      font-size:11px;
-      letter-spacing:.18em;
-      text-transform:uppercase;
-      color:#a5b4fc;
-      margin-bottom:8px;
-    }
-    .wall-line{
-      font-size:13px;
-      color:#e5e7eb;
-    }
+    
     .wall-line span{
       display:block;
       font-size:11px;
@@ -790,55 +813,50 @@
 
     <div class="band-divider" aria-hidden="true"></div>
 
-    <!-- Gate 1 — Hei Rata Digital Taonga -->
-    <section id="gate1-section" class="wf-section" aria-labelledby="gate1-heading">
-      <div id="gate1-section-inner">
-        <div class="section-heading">
-          <h2 id="gate1-heading">Gate 1 — Hei Rata Digital Taonga</h2>
-          <p>Meet the first digital taonga: a 3D Hei Rata carved in timber, scanned, and stood up inside your browser.</p>
+    <!-- Gate 1 — Breath Wall -->
+    <section id="gate1-section" class="gate4 wf-section" aria-labelledby="gate1-heading">
+      <div class="gate4__inner" id="gate1-section-inner">
+        <h2 id="gate1-heading">Gate 1 — Breath Wall</h2>
+
+        <!-- Viewer: same card style as hero -->
+        <div class="hero-inner gate1-hero">
+          <div class="breath-wall-frame">
+            <canvas
+              id="gate1-breath-canvas"
+              class="breath-wall-canvas"
+              aria-hidden="true">
+            </canvas>
+          </div>
+          <p class="gate1-caption" style="text-align:center;margin-top:12px;">
+            This wall is rendered live with Three.js — one plane, breathing in real time.<br>
+            <span>Next step: link the breath depth and brightness to Whiro ledger data.</span>
+          </p>
         </div>
 
-        <div class="gate1-layout">
-          <div class="gate1-copy">
-            <p>
-              <strong>Hei Rata</strong> stands as the first visible pou of this kaupapa — a physical carving brought into light as a
-              <em>digital taonga</em>. It carries the pattern of Te Rua o te Rata: a trumpet of hardwood, born from g-code and hand-finishing.
-            </p>
-            <p>
-              In this gate, the taonga is not locked in a glass case. You can spin it, stand it up in your lounge, or sit with it in AR.
-              It is both record and relationship — the stone memory of one day in the shed.
-            </p>
-            <p>
-              <strong>Law behind the gate:</strong> nothing exists in this engine until it has been done by hand once. The 3D model is a witness, not a replacement.
-            </p>
-            <p class="gate1-meta">
-              <strong>Best use:</strong> load on your phone, tap the AR icon, and stand with the taonga in your own whare.
-            </p>
-          </div>
-
-          <div class="gate1-model">
-            <!-- point to actual GLB file in your assets -->
-            <model-viewer src="assets/hei_rata_gate1_v1.glb"
-              alt="Hei Rata digital taonga — 3D carved trumpet"
-              camera-controls
-              auto-rotate
-              touch-action="pan-y"
-              ar
-              ar-modes="scene-viewer quick-look webxr"
-              shadow-intensity="0.5"
-              environment-image="neutral"
-              exposure="1.1">
-			</model-viewer>
-
-            <p class="ar-note">
-              Tip: open in AR on your device to stand the hei rata up in your own whare.
-            </p>
-          </div>
+        <!-- Text, centered below the viewer -->
+        <div class="gate1-copy" style="max-width:720px;margin:32px auto 0;text-align:center;">
+          <p>
+            Gate 1 is the breathing wall itself — the “Proof of Breath” loop that shows code holding mauri.
+            This is where light, time, and audio move as one lung.
+          </p>
+          <p>
+            <strong>What you’re seeing:</strong> a single digital plane bulging and glowing like a chest inhale.
+            Edges are pinned so that the wall feels anchored — no floating panels, just a living surface.
+          </p>
+          <p>
+            The render you saw in the hero above is a sealed Tiki from this gate. Behind it sits a JSON ledger,
+            a Crown manifest, and a trail of Whiro chips from every failed test.
+          </p>
+          <p>
+            <strong>Why it matters:</strong> if a wall can breathe on time with a karakia, then code can be taught
+            to behave like a taonga, not a billboard.
+          </p>
         </div>
       </div>
     </section>
 
     <div class="band-divider" aria-hidden="true"></div>
+
 
     <!-- Gate 2 — Inside the Grain -->
     <section id="gate2" class="gate2 wf-section" aria-labelledby="gate2-heading">
@@ -847,20 +865,70 @@
           <h2 id="gate2-heading">Gate 2 — Inside the Grain</h2>
         </div>
         <p class="gate2__intro">
-          Stepping through Gate 2 takes you inside the timber: into height maps, CNC passes, and the IO laws that keep the chips clean.
+          “What’s really happening underneath the surface.”
+
+			Gate 2 takes you inside the timber, into the hidden world you normally never see.
+			Think of it like lifting the skin off a living thing and looking at the muscle and bone — not to shock, but to understand how everything works.
         </p>
         <div class="gate2-grid">
           <article class="gate2-card">
             <h3>Height Maps</h3>
-            <p>Relief maps turned into carving recipes — each pixel a planned strike.</p>
+            <p>Before a chisel ever touches wood, we turn an image into a height map — basically:
+
+			Light areas = high spots
+
+			Dark areas = low spots
+
+			Imagine a sandpit where some parts are tall and some are shallow — that’s all a height map is.
+			This map becomes the recipe the machines and tools follow.</p>
           </article>
           <article class="gate2-card">
             <h3>IO Law</h3>
-            <p>Stop-cuts + 45° shear; one change per pass. Physics in wood, not theory.</p>
+            <p>IO Law keeps the chips clean and the cuts safe.
+
+			This is the most important rule in this gate.
+
+			Think of IO Law as:
+
+			“Always cut in the direction the wood wants to be cut.”
+
+			Wood has grain lines, like hair.
+			If you cut with the grain → smooth, clean chips.
+			If you cut against it → it rips, screams, and tears out chunks.
+
+			So IO Law says:
+
+			Make stop-cuts first (tiny “walls” that stop cracks)
+
+			Use a 45° slicing motion, not a lever
+
+			Only change one thing at a time (angle, depth, pressure)
+
+			It’s not about force — it’s about alignment.
+
+			Even someone with no carving skills can understand that hair, grass, or cloth behaves differently depending on the direction you go. Wood is the same.</p>
           </article>
           <article class="gate2-card">
             <h3>Hand Pass</h3>
-            <p>Every CNC rough-out finishes under hand — no cut leaves without a human witness.</p>
+            <p>After the CNC does its part and IO Law sets the rules, the final stage is simple:
+
+			👉 A human hand must finish every surface.
+
+			Why?
+
+			Because the grain changes direction constantly.
+			Because machines don’t feel resistance or softness.
+			Because only a person can respond to the wood in real time.
+
+			Gate 2 teaches that the final beauty, accuracy, and mana of a carving comes from someone listening with their hands, not a machine blindly following numbers.
+
+			This is why your kaupapa is alive:
+
+			The machine starts the job
+
+			The person gives it its soul
+
+			Nothing leaves this gate without a human touch.</p>
           </article>
         </div>
       </div>
@@ -903,36 +971,49 @@
 
     <div class="band-divider" aria-hidden="true"></div>
 
-    <!-- Gate 4 — Breath Wall -->
-    <section id="gate4" class="gate4 wf-section" aria-labelledby="gate4-heading">
-      <div class="gate4__inner">
-        <h2 id="gate4-heading">Gate 4 — Breath Wall</h2>
-        <p>
-          Gate 4 is the breathing wall itself — the “Proof of Breath” loop that shows code holding mauri.
-          This is where light, time, and audio move as one lung.
-        </p>
+    <!-- Gate 4 — Hei Rata Digital Taonga (Into the Grain) -->
+    <section id="gate4" class="wf-section gate4" aria-labelledby="gate4-heading">
+      <div id="gate4-section-inner">
+        <div class="section-heading">
+          <h2 id="gate4-heading">Gate 4 — Hei Rata Digital Taonga</h2>
+          <p>Step through to the first digital taonga: a 3D Hei Rata carved in timber, scanned, and stood up inside your browser — the “into the grain” path.</p>
+        </div>
 
-        <div class="gate4-rows">
-          <div class="gate4-copy">
+        <div class="gate1-layout">
+          <div class="gate1-copy">
             <p>
-              <strong>What you’re seeing:</strong> a single digital plane bulging and glowing like a chest inhale. Edges are pinned so that the wall feels anchored — no floating panels, just a living surface.
+              <strong>Hei Rata</strong> stands as the first visible pou of this kaupapa — a physical carving brought into light as a
+              <em>digital taonga</em>. It carries the pattern of Te Rua o te Rata: a trumpet of hardwood, born from g-code and hand-finishing.
             </p>
             <p>
-              The render you saw in the hero above is a sealed Tiki from this gate. Behind it sits a JSON ledger, a Crown manifest, and a trail of Whiro chips from every failed test.
+              In this gate, the taonga is not locked in a glass case. You can spin it, stand it up in your lounge, or sit with it in AR.
+              It is both record and relationship — the stone memory of one day in the shed.
             </p>
             <p>
-              <strong>Why it matters:</strong> if a wall can breathe on time with a karakia, then code can be taught to behave like a taonga, not a billboard.
+              <strong>Law behind the gate:</strong> nothing exists in this engine until it has been done by hand once. The 3D model is a witness, not a replacement.
+            </p>
+            <p class="gate1-meta">
+              <strong>Best use:</strong> load on your phone, tap the AR icon, and stand with the taonga in your own whare.
             </p>
           </div>
 
-          <div class="wall-block">
-            <div class="wall-block-inner">
-              <div class="wall-label">Wall that Breathes — Status</div>
-              <div class="wall-line">
-                Live loop running in hero.
-                <span>Next step: shader gate that responds to ledger data — wall brightens or dims in real time as chips are logged.</span>
-              </div>
-            </div>
+          <div class="gate1-model">
+            <!-- point to actual GLB file in your assets -->
+            <model-viewer src="assets/hei_rata_gate1_v1.glb"
+              alt="Hei Rata digital taonga — 3D carved trumpet"
+              camera-controls
+              auto-rotate
+              touch-action="pan-y"
+              ar
+              ar-modes="scene-viewer quick-look webxr"
+              shadow-intensity="0.5"
+              environment-image="neutral"
+              exposure="1.1">
+			</model-viewer>
+
+            <p class="ar-note">
+              Tip: open in AR on your device to stand the hei rata up in your own whare.
+            </p>
           </div>
         </div>
       </div>
@@ -1046,5 +1127,6 @@
       </script>
     </footer>
   </div>
+  <script type="module" src="assets/js/gate1_breath_wall.js"></script>
 </body>
 </html>
