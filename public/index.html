@@ -217,24 +217,6 @@
       display:grid;
       place-items:center;
     }
-    .hero-inner{
-      max-width:var(--max);
-      margin:0 auto;
-      border-radius:32px;
-      overflow:hidden;
-      box-shadow:
-        0 0 0 1px rgba(15,23,42,.8),
-        0 0 80px rgba(103,187,255,.26),
-        0 0 180px rgba(30,64,175,.5);
-      background:radial-gradient(circle at top,#020617,#000);
-    }
-    .hero-inner video{
-      display:block;
-      width:100%;
-      height:auto;
-      max-height:min(60vh,680px);
-      object-fit:cover;
-    }
 
     .highlights{
       padding-top:clamp(18px,3vw,40px);
@@ -349,6 +331,46 @@
       font-size:13px;
       color:#cbd5e1;
     }
+	.hero-inner{
+	  max-width:var(--max);
+	  margin:0 auto;
+	  border-radius:32px;
+	  overflow:hidden;
+	  box-shadow:
+		0 0 0 1px rgba(15,23,42,.8),
+		0 0 80px rgba(103,187,255,.26),
+		0 0 180px rgba(30,64,175,.5);
+	  background:radial-gradient(circle at top,#020617,#000);
+	  position:relative;
+	}
+
+	/* Reserve vertical space for hero + Gate 1 so nothing jumps */
+	.hero-inner,
+	.hero-inner.gate1-hero{
+	  min-height:clamp(220px,56.25vw,480px); /* ~16:9 frame */
+	}
+
+	.hero-inner video{
+	  display:block;
+	  width:100%;
+	  height:100%;
+	  object-fit:cover;
+	}
+
+	/* Gate 1 breathing wall frame + canvas */
+	.breath-wall-frame{
+	  width:100%;
+	  height:100%;
+	  aspect-ratio:16 / 9;  /* tells layout the height immediately */
+	}
+
+	.breath-wall-canvas{
+	  display:block;
+	  width:100%;
+	  height:100%;
+	  border:none;
+	}
+
 
     #gate1-section{
       padding:clamp(20px,5vw,60px) var(--pad) clamp(20px,5vw,60px);
@@ -369,7 +391,7 @@
    }
 
 
-		.gate1-copy{
+	.gate1-copy{
 	  font-size:14px;
 	  color:#cbd5e1;
 	  line-height:1.6;
@@ -389,7 +411,7 @@
       color:#e5e7eb;
     }
 
-		.gate1-model{
+	.gate1-model{
 	  border-radius:32px;
 	  overflow:hidden;
 	  background:radial-gradient(circle at top,#020617,#000);
@@ -401,26 +423,13 @@
 	  max-width:var(--max);   /* same width cap as hero */
 	  margin:0 auto;
 	}
-	
-		.breath-wall-frame{
-	  width:100%;
-	  height:100%;
-	}
-
-	.breath-wall-canvas{
-	  display:block;
-	  width:100%;
-	  height:auto;
-	  max-height:min(60vh,680px);
-	  border:none;
-	}
 
 	.gate1-caption{
 	  margin:10px 2px 0;
 	  font-size:12px;
 	  color:#9ca3af;
 	}
-
+	
 	.gate1-caption span{
 	  display:block;
 	  margin-top:4px;
@@ -443,7 +452,7 @@
       border:1px solid rgba(15,23,42,.9);
       overflow:hidden;
     }
-		.gate1-text p{
+	.gate1-text p{
 	  font-size:14px;
 	  color:#cbd5e1;
 	  line-height:1.6;
