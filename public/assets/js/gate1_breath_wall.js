@@ -1,293 +1,247 @@
-// Gate 1 — Two Oceans Wall (dialled up, fixed)
-// - Inner lake (engine) = calm but clearly shaped in motion only
-// - Outer ocean (manuhiri) = strong hover/click ripples
-// - Lake mask from puhoro_lake_mask_v1.png = boundary band
-
-import * as THREE from 'https://unpkg.com/three@0.161.0/build/three.module.js';
+// gate1_breath_wall.js
+// Te Kuaha Whakaata — Mirror Gate (global THREE version)
 
 (function () {
-  const canvas = document.getElementById('gate1-breath-canvas');
-  if (!canvas) {
-    console.warn('gate1_breath_wall.js: #gate1-breath-canvas not found');
+  if (typeof THREE === "undefined") {
+    console.warn("Mirror Gate: THREE.js not found on window.");
     return;
   }
 
-  // Renderer
+  const canvas = document.getElementById("gate1-breath-canvas");
+  if (!canvas) {
+    console.warn("Mirror Gate: canvas #gate1-breath-canvas not found.");
+    return;
+  }
+
+  let width = canvas.clientWidth || 800;
+  let height = canvas.clientHeight || 450;
+
   const renderer = new THREE.WebGLRenderer({
-    canvas,
+    canvas: canvas,
     antialias: true,
-    alpha: true,
   });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setPixelRatio(window.devicePixelRatio || 1);
+  renderer.setSize(width, height, false);
 
-  // Scene & Camera
   const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
 
-  const camera = new THREE.PerspectiveCamera(
-    30,
-    1, // updated on resize
-    0.1,
-    10
-  );
-  camera.position.z = 2.4;
-  scene.add(camera);
+  const camera = new THREE.PerspectiveCamera(25, width / height, 0.1, 10);
+  camera.position.set(0, 0, 1.6);
 
-  // Higher-res plane geometry to kill “steps”
-  const geometry = new THREE.PlaneGeometry(2, 1, 256, 128);
+  const geometry = new THREE.PlaneGeometry(2, 1.125, 200, 112); // 16:9-ish
 
-  // --- Two-ocean lake mask texture ----------------------------------
-
-  const lakeMask = new THREE.TextureLoader().load(
-    'assets/textures/puhoro_lake_mask_v1.png'
-  );
-  lakeMask.wrapS = THREE.ClampToEdgeWrapping;
-  lakeMask.wrapT = THREE.ClampToEdgeWrapping;
-  lakeMask.minFilter = THREE.LinearFilter;
-  lakeMask.magFilter = THREE.LinearFilter;
-  lakeMask.anisotropy = renderer.capabilities.getMaxAnisotropy();
-
-  // Uniforms
   const uniforms = {
-    u_time:         { value: 0 },
-    u_tideAmp:      { value: 0.06 }, // softer tide
-
-    u_rippleAmp:    { value: 0.20 }, // base ripple amp (we mod it on events)
-    u_rippleCenter: { value: new THREE.Vector2(0.5, 0.5) },
-    u_rippleStart:  { value: 0.0 },
-
-    u_tension:      { value: 0.0 },  // 0 = soft, 1 = hard boundary
-
-    u_colorDeep:    { value: new THREE.Color(0x020617) },
-    u_colorMid:     { value: new THREE.Color(0x0ea5e9) },
-    u_colorFoam:    { value: new THREE.Color(0x38bdf8) },
-
-    u_skyColor:     { value: new THREE.Color(0x020617) },
-
-    u_lakeMask:     { value: lakeMask },
+    uTime: { value: 0 },
+    uResolution: { value: new THREE.Vector2(width, height) },
+    uPointer: { value: new THREE.Vector2(0.5, 0.5) },
+    uDisturbance: { value: 0.0 },
+    uSettleFactor: { value: 0.0 },
   };
 
-  // Vertex shader
-  const vertexShader = /* glsl */`
-    precision mediump float;
-
-    uniform float u_time;
-    uniform float u_tideAmp;
-    uniform float u_rippleAmp;
-    uniform vec2  u_rippleCenter;
-    uniform float u_rippleStart;
-
-    uniform sampler2D u_lakeMask;
-    uniform float u_tension;
-
+  const vertexShader = `
     varying vec2 vUv;
-    varying float vHeight;
-
     void main() {
       vUv = uv;
-
-      // Pin near the outer frame
-      vec2 centre = vec2(0.5, 0.5);
-      float distCentre = distance(uv, centre);
-      float edgeMask = 1.0 - smoothstep(0.0, 0.75, distCentre);
-
-      // --- Lake mask sampling (blurred) ---
-      float texelX = 1.0 / 1024.0;
-      float texelY = 1.0 / 512.0;
-
-      float m0 = texture2D(u_lakeMask, vUv).r;
-      float m1 = texture2D(u_lakeMask, vUv + vec2( texelX, 0.0)).r;
-      float m2 = texture2D(u_lakeMask, vUv + vec2(-texelX, 0.0)).r;
-      float m3 = texture2D(u_lakeMask, vUv + vec2(0.0,  texelY)).r;
-      float m4 = texture2D(u_lakeMask, vUv + vec2(0.0, -texelY)).r;
-      float m5 = texture2D(u_lakeMask, vUv + vec2( texelX,  texelY)).r;
-      float m6 = texture2D(u_lakeMask, vUv + vec2(-texelX,  texelY)).r;
-      float m7 = texture2D(u_lakeMask, vUv + vec2( texelX, -texelY)).r;
-      float m8 = texture2D(u_lakeMask, vUv + vec2(-texelX, -texelY)).r;
-
-      float lakeValRaw = (m0 + m1 + m2 + m3 + m4 + m5 + m6 + m7 + m8) / 9.0;
-
-      // Inner = white, outer = black
-      float innerMask = smoothstep(0.25, 0.9, lakeValRaw);
-      float outerMask = 1.0 - innerMask;
-
-      // Boundary where the two oceans meet
-      float boundaryMask = smoothstep(0.40, 0.60, lakeValRaw);
-
-      // --- Engine tide + swell (everywhere) ---
-      float tTide  = u_time * 0.35;
-      float tide   = sin(tTide) * u_tideAmp;
-
-      float tSwell = u_time * 0.18;
-      float swell  = sin((uv.x * 6.28318) + tSwell) * (u_tideAmp * 0.8);
-
-      // Base engine height — inner/outer the SAME at rest
-      float engineHeight = tide + swell;
-      float lakeShape = 0.0;
-      engineHeight += lakeShape;
-
-      // --- Ripple from manuhiri input ---
-      float ripple = 0.0;
-      if (u_rippleStart > 0.0) {
-        float t = max(u_time - u_rippleStart, 0.0);
-        float d = distance(uv, u_rippleCenter);
-
-        // higher frequency and speed so you really see it
-        float wave = sin(16.0 * d - 6.0 * t);
-        float timeEnvelope  = exp(-0.25 * t);
-        float spaceEnvelope = 1.0 - smoothstep(0.0, 1.4, d);
-
-        ripple = wave * timeEnvelope * spaceEnvelope;
-      }
-
-      // Outer ocean ripples: big and obvious
-      float outerRipple = ripple * u_rippleAmp * outerMask * 1.6;
-
-      // Inner lake ripples: softer, and blocked when tension high
-      float block = mix(0.0, 1.0, boundaryMask * u_tension);
-      float innerPass = 1.0 - block;
-      float innerRipple = ripple * u_rippleAmp * innerMask * innerPass * 0.9;
-
-      // --- Standing wave along boundary when tension is high ---
-      float boundaryWave = 0.0;
-      if (u_tension > 0.02) {
-        float t = u_time * 3.5;
-        float lineWave = sin((vUv.x * 12.0) - t);
-        float envelope = boundaryMask;
-        float centerFalloff = 1.0 - smoothstep(0.3, 0.7, vUv.x);
-        // line "rings" strongest near centre of x
-        boundaryWave = lineWave * envelope * centerFalloff * 0.08 * u_tension;
-      }
-
-      float height = (engineHeight + outerRipple + innerRipple + boundaryWave) * edgeMask;
-
-      vHeight = height;
-      vec3 displaced = position + normal * height;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(displaced, 1.0);
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `;
 
-  // Fragment shader
-  const fragmentShader = /* glsl */`
-    precision mediump float;
-
-    uniform vec3 u_colorDeep;
-    uniform vec3 u_colorMid;
-    uniform vec3 u_colorFoam;
-    uniform vec3 u_skyColor;
+  const fragmentShader = `
+    precision highp float;
 
     varying vec2 vUv;
-    varying float vHeight;
+
+    uniform float uTime;
+    uniform vec2 uResolution;
+    uniform vec2 uPointer;
+    uniform float uDisturbance;
+    uniform float uSettleFactor;
+
+    float hash(vec2 p) {
+      p = fract(p * vec2(123.34, 345.45));
+      p += dot(p, p + 34.345);
+      return fract(p.x * p.y);
+    }
+
+    float noise(vec2 p) {
+      vec2 i = floor(p);
+      vec2 f = fract(p);
+      float a = hash(i);
+      float b = hash(i + vec2(1.0, 0.0));
+      float c = hash(i + vec2(0.0, 1.0));
+      float d = hash(i + vec2(1.0, 1.0));
+      vec2 u = f * f * (3.0 - 2.0 * f);
+      return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+    }
+
+    float mataoraMask(vec2 uv) {
+      vec2 p = (uv - 0.5) * vec2(1.4, 2.0);
+
+      float face = smoothstep(0.9, 0.2, length(p));
+
+      float manawa = smoothstep(0.02, 0.0, abs(p.x));
+
+      float cheekLeft  = smoothstep(0.03, 0.0, abs(p.y + 0.2) - (0.3 + 0.15 * sin(p.y * 5.0)));
+      float cheekRight = smoothstep(0.03, 0.0, abs(p.y + 0.2) - (0.3 + 0.15 * sin(-p.y * 5.0)));
+
+      vec2 eyeL = p + vec2(0.4, 0.3);
+      vec2 eyeR = p + vec2(-0.4, 0.3);
+      float eyeMaskL = smoothstep(0.08, 0.05, length(eyeL));
+      float eyeMaskR = smoothstep(0.08, 0.05, length(eyeR));
+
+      float mataora = 0.0;
+      mataora += manawa * 0.9;
+      mataora += cheekLeft * 0.7;
+      mataora += cheekRight * 0.7;
+      mataora += eyeMaskL * 0.8;
+      mataora += eyeMaskR * 0.8;
+
+      mataora *= face;
+      return clamp(mataora, 0.0, 1.0);
+    }
 
     void main() {
-      float h = clamp((vHeight + 0.20) / 0.40, 0.0, 1.0);
+      vec2 uv = vUv;
+      float t = uTime * 0.3;
 
-      vec3 deepToMid = mix(u_colorDeep, u_colorMid, smoothstep(0.0, 0.6, h));
-      vec3 waterColor = mix(deepToMid, u_colorFoam, smoothstep(0.6, 1.0, h));
+      float breath = sin(t * 0.7) * 0.15;
 
-      float edge = distance(vUv, vec2(0.5, 0.5));
-      float fresnel = smoothstep(0.2, 0.9, edge);
-      vec3 reflected = mix(waterColor, u_skyColor, fresnel * 0.6);
+      vec2 toPointer = uv - uPointer;
+      float dist = length(toPointer);
+      float ripple = 0.0;
+      if (uDisturbance > 0.01) {
+        float wave = sin(20.0 * dist - t * 6.0);
+        float falloff = exp(-10.0 * dist);
+        ripple = wave * falloff * uDisturbance * 0.4;
+      }
 
-      // Subtle horizontal "sun" highlight band
-      float highlight = smoothstep(0.45, 0.55, vUv.y);
-      highlight *= smoothstep(0.0, 0.12, abs(vHeight)); // mainly on gentle slopes
-      vec3 sun = vec3(1.0, 1.0, 1.0);
+      float n = noise(uv * 8.0 + vec2(t * 0.5, -t * 0.3)) * 0.06;
 
-      vec3 color = mix(reflected, sun, highlight * 0.08);
-      gl_FragColor = vec4(color, 1.0);
+      float height = breath + ripple + n;
+
+      vec2 eps = vec2(1.0 / uResolution.x, 1.0 / uResolution.y);
+      float hR = breath + ripple + noise((uv + vec2(eps.x, 0.0)) * 8.0 + vec2(t * 0.5, -t * 0.3));
+      float hU = breath + ripple + noise((uv + vec2(0.0, eps.y)) * 8.0 + vec2(t * 0.5, -t * 0.3));
+      vec3 nrm = normalize(vec3(hR - height, hU - height, 1.0));
+
+      vec3 deep = vec3(0.02, 0.04, 0.06);
+      vec3 sky = vec3(0.18, 0.22, 0.30);
+
+      float ndotl = clamp(dot(nrm, normalize(vec3(0.2, 0.4, 1.0))), 0.0, 1.0);
+      float fres = pow(1.0 - nrm.z, 3.0);
+
+      vec3 baseCol = mix(deep, sky, ndotl * 0.6 + fres * 0.4);
+
+      float disturbanceGlow = uDisturbance * 0.35;
+      baseCol += disturbanceGlow * vec3(0.1, 0.14, 0.18);
+
+      float revealRaw = 1.0 - clamp(uDisturbance * 1.2, 0.0, 1.0);
+      float revealTime = smoothstep(0.4, 0.9, uSettleFactor);
+      float reveal = revealRaw * revealTime;
+
+      float mask = mataoraMask(uv);
+      float mataoraStrength = reveal * mask;
+
+      vec3 mataoraCol = vec3(0.92, 0.92, 0.88) + vec3(0.12, 0.18, 0.28) * 0.4;
+
+      vec3 colour = baseCol;
+      colour = mix(colour, colour + mataoraCol * 0.5, mataoraStrength);
+      colour += mataoraStrength * 0.15;
+
+      vec2 d = uv - 0.5;
+      float vignette = smoothstep(0.9, 0.2, length(d));
+      colour *= vignette;
+
+      gl_FragColor = vec4(colour, 1.0);
     }
   `;
 
   const material = new THREE.ShaderMaterial({
-    uniforms,
-    vertexShader,
-    fragmentShader,
+    uniforms: uniforms,
+    vertexShader: vertexShader,
+    fragmentShader: fragmentShader,
   });
 
   const plane = new THREE.Mesh(geometry, material);
   scene.add(plane);
 
-  const clock = new THREE.Clock();
-  let accumulatedTime = 0;
-
-  // -------- Interaction: stone vs wind, tension control --------
-
-  function setRippleFromEvent(ev) {
+  function setPointerFromEvent(event) {
     const rect = canvas.getBoundingClientRect();
-    const x = (ev.clientX - rect.left) / rect.width;
-    const y = (ev.clientY - rect.top) / rect.height;
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
 
-    uniforms.u_rippleCenter.value.set(x, 1.0 - y);
-    uniforms.u_rippleStart.value = accumulatedTime;
+    uniforms.uPointer.value.set(x, 1.0 - y);
+    uniforms.uDisturbance.value = Math.min(
+      1.0,
+      uniforms.uDisturbance.value + 0.2
+    );
+    uniforms.uSettleFactor.value = Math.max(
+      0.0,
+      uniforms.uSettleFactor.value - 0.15
+    );
   }
 
-  // Stone drop: big ripple + hard boundary
-  function triggerStoneDrop(ev) {
-    setRippleFromEvent(ev);
-    uniforms.u_rippleAmp.value = 0.22;
-    uniforms.u_tension.value = 1.0;
+  canvas.addEventListener("pointermove", setPointerFromEvent);
+  canvas.addEventListener("pointerdown", setPointerFromEvent);
+  canvas.addEventListener("pointerenter", setPointerFromEvent);
+
+  function onResize() {
+    const newWidth = canvas.clientWidth || width;
+    const newHeight = canvas.clientHeight || height;
+
+    if (newWidth === width && newHeight === height) return;
+
+    width = newWidth;
+    height = newHeight;
+
+    renderer.setSize(width, height, false);
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    uniforms.uResolution.value.set(width, height);
   }
 
-  // Wind: medium ripple + medium tension, from hover
-  let lastGustTime = 0;
-  const GUST_INTERVAL = 0.03;
+  window.addEventListener("resize", onResize);
 
-  function triggerWindGust(ev) {
-    if (ev.buttons !== 0) return;
+  let lastTime = performance.now();
+  let revealed = false;
 
-    const now = accumulatedTime;
-    if (now - lastGustTime < GUST_INTERVAL) return;
-    lastGustTime = now;
+  function animate(now) {
+    requestAnimationFrame(animate);
 
-    setRippleFromEvent(ev);
-    uniforms.u_rippleAmp.value = 0.14;
-    uniforms.u_tension.value = Math.max(uniforms.u_tension.value, 0.4);
-  }
+    const deltaMs = now - lastTime;
+    const delta = deltaMs / 1000.0;
+    lastTime = now;
 
-  canvas.addEventListener('pointerdown', triggerStoneDrop);
-  canvas.addEventListener('pointermove', triggerWindGust);
+    uniforms.uTime.value += delta;
 
-  canvas.addEventListener('pointerup',    () => {});
-  canvas.addEventListener('pointerleave', () => {});
+    const decayRate = 0.25;
+    uniforms.uDisturbance.value = Math.max(
+      0.0,
+      uniforms.uDisturbance.value - decayRate * delta
+    );
 
-  // -------- Resize + render loop -------------------------------
-
-  function resizeRendererToDisplaySize() {
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight || (width * 0.5);
-    if (width === 0 || height === 0) return;
-
-    const pixelRatio = renderer.getPixelRatio();
-    const needResize =
-      canvas.width  !== width  * pixelRatio ||
-      canvas.height !== height * pixelRatio;
-
-    if (needResize) {
-      renderer.setSize(width, height, false);
-      camera.aspect = width / height;
-      camera.updateProjectionMatrix();
-    }
-  }
-
-  function render() {
-    const dt = clock.getDelta();
-    accumulatedTime += dt;
-    uniforms.u_time.value = accumulatedTime;
-
-    // Relax tension back to soft over time
-    if (uniforms.u_tension.value > 0.0) {
-      uniforms.u_tension.value = Math.max(
+    if (uniforms.uDisturbance.value < 0.15) {
+      const settleSpeed = 0.15;
+      uniforms.uSettleFactor.value = Math.min(
+        1.0,
+        uniforms.uSettleFactor.value + settleSpeed * delta
+      );
+    } else {
+      const resetSpeed = 0.5;
+      uniforms.uSettleFactor.value = Math.max(
         0.0,
-        uniforms.u_tension.value - dt * 0.18  // a bit quicker relax
+        uniforms.uSettleFactor.value - resetSpeed * delta
       );
     }
 
-    resizeRendererToDisplaySize();
+    if (!revealed && uniforms.uSettleFactor.value > 0.85) {
+      revealed = true;
+      document.body.classList.add("mirror-revealed");
+    }
+
     renderer.render(scene, camera);
-    requestAnimationFrame(render);
   }
 
-  window.addEventListener('resize', resizeRendererToDisplaySize);
-  resizeRendererToDisplaySize();
-  render();
+  animate(performance.now());
 })();
